@@ -22,6 +22,9 @@ namespace Galaga {
         }
 
         public void Move() {
+            if(Direction.X>0 && Direction.X<500){
+               shape.Move() 
+            }  
         }
 
         public void SetMoveLeft(bool val) {

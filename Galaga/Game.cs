@@ -4,23 +4,59 @@ using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using System.Collections.Generic;
+using DIKUArcade.EventBus;
 
 
 namespace Galaga
 {
-    public class Game {
-
+    public class Game : IGameEventProcessor<object> {
+        private GameEventBus<object> eventBus;
         private Player player;
         private Window window;
         private GameTimer gameTimer;
 
         public Game(){
+            eventBus = new GameEventBus<object>();
+            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.
+        InputEvent });
+            window.RegisterEventBus(eventBus);
+            eventBus.Subscribe(GameEventType.InputEvent, this);
             window = new Window("Galaga", 500, 500);
             gameTimer = new GameTimer(30, 30);
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
         }
+          public void KeyPress(string key) {
+              switch (key){
+                  case "KEY_LEFT":
+                        Player.SetMoveLeft(true);
+                  case "KEY_RIGHT":
+                        Player.SetMoveRight(true);
+                  case "KEY_ESCAPE":
+                        window.CloseWindow();
+              }
+        }   
+        public void KeyRelease(string key) {
+                switch (key) {
+                    case ""
+                }
+        // TODO: switch on key string and disable the player's move direction
+        // TODO: Close window if escape is pressed
+    }
+        public void ProcessEvent(GameEventType type, GameEvent<object> gameEvent) {
+            switch (gameEvent.Parameter1) {
+                case "KEY_PRESS":
+                    KeyPress(gameEvent.Message);
+                    break;
+                case "KEY_RELEASE":
+                    KeyRelease(gameEvent.Message);
+                    break;
+                default:
+                break;
+        }
+    }
 
         public void Run() {
             while (window.IsRunning()){
