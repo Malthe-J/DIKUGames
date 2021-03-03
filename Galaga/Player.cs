@@ -22,21 +22,31 @@ namespace Galaga {
         }
 
         public void Move() {
-            if(Direction.X>0 && Direction.X<500){
-               shape.Move() 
-            }  
+          if(shape.Position.X < 0.0)
+          {
+              shape.Position.X = 0.0f;     
+          }
+          else if (shape.Position.X > 0.9)
+          {
+              shape.Position.X = 0.9f;
+          }
+          else {
+              shape.Move();
+          }
         }
 
         public void SetMoveLeft(bool val) {
-            if (val == true) {
-                moveLeft -= MOVEMENT_SPEED;
+            if (val) {
+                moveLeft += MOVEMENT_SPEED;
             }else {
                 moveLeft = 0;
             }
+
+            UpdateDirection();
         }
 
         public void SetMoveRight(bool val) {
-            if (val == true) {
+            if (val) {
                 moveRight += MOVEMENT_SPEED;
             } else {
                 moveRight = 0;
@@ -47,7 +57,7 @@ namespace Galaga {
 
         private void UpdateDirection()
         {
-            shape.Direction.X = moveRight + moveLeft;
+            shape.Direction.X = moveRight - moveLeft;
         }
     }
 }
