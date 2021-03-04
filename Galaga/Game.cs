@@ -19,6 +19,11 @@ namespace Galaga
         private EntityContainer<Enemy> enemies;
         private EntityContainer<PlayerShot> playerShots;
         private IBaseImage playerShotImage;
+        private AnimationContainer enemyExplosions;
+        private List<Image> explosionStrides;
+        private const int EXPLOSION_LENGTH_MS = 500;
+
+
 
         public Game(){
             window = new Window("Galaga", 500, 500);
@@ -38,7 +43,10 @@ namespace Galaga
                 enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, images)));
             }
             playerShots = new EntityContainer<PlayerShot>();
-            playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));         
+            playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));  
+            enemyExplosions = new AnimationContainer(numEnemies);   
+            explosionStrides = ImageStride.CreateStrides(8,   
+            Path.Combine("Assets", "Images", "Explosion.png")); 
         }
         public void KeyPress(string key) {
             switch (key){
@@ -102,6 +110,8 @@ namespace Galaga
                     
                     playerShots.RenderEntities();
 
+                    enemyExplosions.RenderAnimations();
+
                     window.SwapBuffers();
 
                 }
@@ -121,6 +131,7 @@ namespace Galaga
                 else {
                     enemies.Iterate(enemy =>{
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision){
+                        AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                         shot.DeleteEntity();
                         enemy.DeleteEntity();
                         }
@@ -128,6 +139,10 @@ namespace Galaga
                     });
                 }
             });
+        }
+        public void AddExplosion(Vec2F position, Vec2F extent) {
+            StationaryShape ExplodeMonster = new StationaryShape (position, extent);
+            enemyExplosions.AddAnimation(ExplodeMonster, EXPLOSION_LENGTH_MS, new ImageStride (EXPLOSION_LENGTH_MS/8, explosionStrides));
         }
     }
 }
