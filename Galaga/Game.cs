@@ -6,6 +6,7 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using System.Collections.Generic;
 using DIKUArcade.EventBus;
+using DIKUArcade.Physics;
 
 
 namespace Galaga
@@ -15,31 +16,46 @@ namespace Galaga
         private Player player;
         private Window window;
         private GameTimer gameTimer;
+        private EntityContainer<Enemy> enemies;
+        private EntityContainer<PlayerShot> playerShots;
+        private IBaseImage playerShotImage;
 
         public Game(){
-        window = new Window("Galaga", 500, 500);
-        gameTimer = new GameTimer(30, 30);
-        player = new Player(
-            new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
-            new Image(Path.Combine("Assets", "Images", "Player.png")));
-        eventBus = new GameEventBus<object>();
-        eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.
-        InputEvent });
-            window.RegisterEventBus(eventBus);
-            eventBus.Subscribe(GameEventType.InputEvent, this);
-            
+            window = new Window("Galaga", 500, 500);
+            gameTimer = new GameTimer(30, 30);
+            player = new Player(
+                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
+                new Image(Path.Combine("Assets", "Images", "Player.png")));
+            eventBus = new GameEventBus<object>();
+            eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.
+            InputEvent });
+                window.RegisterEventBus(eventBus);
+                eventBus.Subscribe(GameEventType.InputEvent, this);
+            var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+            const int numEnemies = 8;
+            enemies = new EntityContainer<Enemy>(numEnemies);
+            for (int i = 0; i < numEnemies; i++){
+                enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, images)));
+            }
+            playerShots = new EntityContainer<PlayerShot>();
+            playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));         
         }
-          public void KeyPress(string key) {
-              switch (key){
-                  case "KEY_LEFT":
-                        player.SetMoveLeft(true);
-                        break;
-                  case "KEY_RIGHT":
-                        player.SetMoveRight(true);
-                        break;
-                  case "KEY_ESCAPE":
-                        window.CloseWindow();
-                        break;
+        public void KeyPress(string key) {
+            switch (key){
+                case "KEY_LEFT":
+                    player.SetMoveLeft(true);
+                    break;
+                case "KEY_RIGHT":
+                    player.SetMoveRight(true);
+                    break;
+                case "KEY_ESCAPE":
+                    window.CloseWindow();
+                    break;
+                case "KEY_SPACE":
+                    Vec2F temp = new Vec2F(player.GetPosition().X,0.1f);
+                    playerShots.AddEntity(new PlayerShot(temp, playerShotImage));
+                    break;
+                    
               }
         }   
         public void KeyRelease(string key) {
@@ -51,9 +67,7 @@ namespace Galaga
                         player.SetMoveRight(false);
                         break;
                 }
-        // TODO: switch on key string and disable the player's move direction
-        // TODO: Close window if escape is pressed
-    }
+        }
         public void ProcessEvent(GameEventType type, GameEvent<object> gameEvent) {
             switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
@@ -64,8 +78,8 @@ namespace Galaga
                     break;
                 default:
                 break;
+            }
         }
-    }
 
         public void Run() {
             while (window.IsRunning()){
@@ -74,6 +88,7 @@ namespace Galaga
                 while (gameTimer.ShouldUpdate()) {
                     window.PollEvents();
                     eventBus.ProcessEvents();
+                    IterateShots();
                 }
 
                 if (gameTimer.ShouldRender()) {
@@ -83,7 +98,12 @@ namespace Galaga
 
                     player.Render();
 
+                    enemies.RenderEntities();
+                    
+                    playerShots.RenderEntities();
+
                     window.SwapBuffers();
+
                 }
 
                 if (gameTimer.ShouldReset())
@@ -91,6 +111,23 @@ namespace Galaga
                     window.Title = $"Galaga | (UPS, FPS): ({gameTimer.CapturedUpdates}, {gameTimer.CapturedFrames})";
                 }
             }
+        }
+        private void IterateShots(){
+            playerShots.Iterate(shot =>{
+                shot.Shape.Position.Y +=0.025f;
+                if(shot.Shape.Position.Y > 1.0){
+                    shot.DeleteEntity();
+                }
+                else {
+                    enemies.Iterate(enemy =>{
+                        if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision){
+                        shot.DeleteEntity();
+                        enemy.DeleteEntity();
+                        }
+
+                    });
+                }
+            });
         }
     }
 }

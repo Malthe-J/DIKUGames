@@ -1,5 +1,6 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
+using DIKUArcade.Math;
 
 namespace Galaga {
     public class Player {
@@ -58,6 +59,9 @@ namespace Galaga {
         private void UpdateDirection()
         {
             shape.Direction.X = moveRight - moveLeft;
+        }
+        public Vec2F GetPosition(){
+            return shape.Position;
         }
     }
 }
