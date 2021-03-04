@@ -60,7 +60,7 @@ namespace Galaga
                     window.CloseWindow();
                     break;
                 case "KEY_SPACE":
-                    Vec2F temp = new Vec2F(player.GetPosition().X + 0.05f, 0.2f);
+                    Vec2F temp = new Vec2F(player.GetPosition().X + 0.05f - 0.004f, 0.2f);
                     playerShots.AddEntity(new PlayerShot(temp, playerShotImage));
                     break;
                     
