@@ -22,6 +22,8 @@ namespace Galaga
         private AnimationContainer enemyExplosions;
         private List<Image> explosionStrides;
         private const int EXPLOSION_LENGTH_MS = 500;
+        private List<Image> enemyStridesRed;
+           
 
 
 
@@ -36,6 +38,7 @@ namespace Galaga
             InputEvent });
                 window.RegisterEventBus(eventBus);
                 eventBus.Subscribe(GameEventType.InputEvent, this);
+                eventBus.Subscribe(GameEventType.InputEvent, player);
             var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             const int numEnemies = 8;
             enemies = new EntityContainer<Enemy>(numEnemies);
@@ -47,14 +50,16 @@ namespace Galaga
             enemyExplosions = new AnimationContainer(numEnemies);   
             explosionStrides = ImageStride.CreateStrides(8,   
             Path.Combine("Assets", "Images", "Explosion.png")); 
+            enemyStridesRed = ImageStride.CreateStrides(2,
+                Path.Combine("Assets", "Images", "RedMonster.png"));
         }
         public void KeyPress(string key) {
             switch (key){
                 case "KEY_LEFT":
-                    player.SetMoveLeft(true);
+
                     break;
                 case "KEY_RIGHT":
-                    player.SetMoveRight(true);
+
                     break;
                 case "KEY_ESCAPE":
                     window.CloseWindow();
@@ -66,29 +71,15 @@ namespace Galaga
                     
               }
         }   
-        public void KeyRelease(string key) {
-                switch (key) {
-                    case "KEY_LEFT" :
-                        player.SetMoveLeft(false);
-                        break;
-                    case "KEY_RIGHT" :
-                        player.SetMoveRight(false);
-                        break;
-                }
-        }
         public void ProcessEvent(GameEventType type, GameEvent<object> gameEvent) {
             switch (gameEvent.Parameter1) {
                 case "KEY_PRESS":
                     KeyPress(gameEvent.Message);
                     break;
-                case "KEY_RELEASE":
-                    KeyRelease(gameEvent.Message);
-                    break;
                 default:
                 break;
             }
         }
-
         public void Run() {
             while (window.IsRunning()){
                 gameTimer.MeasureTime();
@@ -131,9 +122,17 @@ namespace Galaga
                 else {
                     enemies.Iterate(enemy =>{
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision){
-                        AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
-                        shot.DeleteEntity();
-                        enemy.DeleteEntity();
+                            shot.DeleteEntity();
+                            enemy.hitpoints--;
+                            if(enemy.hitpoints==5) {
+                                enemy.Image= new ImageStride (80,enemyStridesRed);
+                            }
+
+                            if(enemy.hitpoints<=0) {
+                                AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
+                                enemy.DeleteEntity();
+                            }
+                           
                         }
 
                     });

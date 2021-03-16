@@ -4,6 +4,11 @@ using DIKUArcade.Graphics;
 namespace Galaga{
     public class Enemy : Entity{
         public Enemy(DynamicShape shape, IBaseImage image)
-            : base(shape, image) {}
+            : base(shape, image) {
+                hitpoints=10;
+            }
+        public int hitpoints {get;set;}
+        
+         
     }
 }
