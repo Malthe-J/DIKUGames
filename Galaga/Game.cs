@@ -23,28 +23,41 @@ namespace Galaga
         private List<Image> explosionStrides;
         private const int EXPLOSION_LENGTH_MS = 500;
         private List<Image> enemyStridesRed;
-           
+
+        private Squadron.ISquadron formation1;
+        
+        private Squadron.ISquadron formation2;
+        private Squadron.ISquadron formation3;
+
+        private MovementStrategy.IMovementStrategy movement;
 
 
 
         public Game(){
             window = new Window("Galaga", 500, 500);
-            gameTimer = new GameTimer(30, 30);
+            gameTimer = new GameTimer(60, 60);
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
             eventBus = new GameEventBus<object>();
             eventBus.InitializeEventBus(new List<GameEventType> { GameEventType.
             InputEvent });
-                window.RegisterEventBus(eventBus);
-                eventBus.Subscribe(GameEventType.InputEvent, this);
-                eventBus.Subscribe(GameEventType.InputEvent, player);
+            window.RegisterEventBus(eventBus);
+            eventBus.Subscribe(GameEventType.InputEvent, this);
+            eventBus.Subscribe(GameEventType.InputEvent, player);
             var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             const int numEnemies = 8;
-            enemies = new EntityContainer<Enemy>(numEnemies);
+            /*enemies = new EntityContainer<Enemy>(numEnemies);
             for (int i = 0; i < numEnemies; i++){
                 enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, images)));
-            }
+            }*/
+            formation1 = new VFormation();
+            formation2 = new LineFormation();
+            formation3 = new ReverseVFormation();
+            movement = new MovementStrategy.ZigZagMove();
+            formation1.CreateEnemies(images, enemyStridesRed);
+            formation2.CreateEnemies(images, enemyStridesRed);
+            formation3.CreateEnemies(images, enemyStridesRed);
             playerShots = new EntityContainer<PlayerShot>();
             playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));  
             enemyExplosions = new AnimationContainer(numEnemies);   
@@ -88,6 +101,7 @@ namespace Galaga
                     window.PollEvents();
                     eventBus.ProcessEvents();
                     IterateShots();
+                    movement.MoveEnemies(formation2.Enemies);
                 }
 
                 if (gameTimer.ShouldRender()) {
@@ -97,7 +111,8 @@ namespace Galaga
 
                     player.Render();
 
-                    enemies.RenderEntities();
+                    //enemies.RenderEntities();
+                    formation2.Enemies.RenderEntities();
                     
                     playerShots.RenderEntities();
 
@@ -120,7 +135,7 @@ namespace Galaga
                     shot.DeleteEntity();
                 }
                 else {
-                    enemies.Iterate(enemy =>{
+                    formation2.Enemies.Iterate(enemy =>{
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision){
                             shot.DeleteEntity();
                             enemy.hitpoints--;
