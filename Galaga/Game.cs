@@ -31,6 +31,8 @@ namespace Galaga
 
         private MovementStrategy.IMovementStrategy movement;
 
+        private Enemy testEnemy;
+
 
 
         public Game(){
@@ -51,6 +53,7 @@ namespace Galaga
             for (int i = 0; i < numEnemies; i++){
                 enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, images)));
             }*/
+            testEnemy = new Enemy(new DynamicShape(new Vec2F(0.0f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, images));
             formation1 = new VFormation();
             formation2 = new LineFormation();
             formation3 = new ReverseVFormation();
@@ -113,6 +116,7 @@ namespace Galaga
 
                     //enemies.RenderEntities();
                     formation2.Enemies.RenderEntities();
+                    //testEnemy.RenderEntity();
                     
                     playerShots.RenderEntities();
 

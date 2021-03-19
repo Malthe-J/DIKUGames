@@ -38,17 +38,17 @@ namespace Galaga.MovementStrategy {
         void IMovementStrategy.MoveEnemy(Enemy enemy)
         {
             float y = enemy.Shape.Position.Y - 0.0003f;
-            float x = enemy.Shape.Position.X + 0.05f + (((float)System.Math.PI * (y - enemy.Shape.Position.Y)) / 0.045f);
-            enemy.Shape.Move(new Vec2F(x, y));
+            float x = 0.0f + 0.00005f * (float)System.Math.Sin((2 * System.Math.PI * (0.9f - y)) / 0.045f);
+            enemy.Shape.Move(new Vec2F(x, -0.0003f));
         }
 
         void IMovementStrategy.MoveEnemies(EntityContainer<Enemy> enemies)
         {
-            foreach (Enemy enemy in enemies) {
+            enemies.Iterate(enemy => {
                 float y = enemy.Shape.Position.Y - 0.0003f;
-                float x = enemy.Shape.Position.X + 0.05f + (float)System.Math.Sin((((float)System.Math.PI * (enemy.Shape.Position.Y - y)) / 0.045f));
-                enemy.Shape.Move(new Vec2F(x, y));
-            }
+                float x = 0.0f + 0.005f * (float)System.Math.Sin((2 * System.Math.PI * (0.05f - y)) / 0.045f);
+                enemy.Shape.Move(new Vec2F( x, -0.0003f));
+            });
         }
     }
 }
