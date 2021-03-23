@@ -145,6 +145,7 @@ namespace Galaga
                             enemy.hitpoints--;
                             if(enemy.hitpoints==5) {
                                 enemy.Image= new ImageStride (80,enemyStridesRed);
+                                enemy.EnragedSpeed();
                             }
 
                             if(enemy.hitpoints<=0) {
