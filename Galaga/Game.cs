@@ -105,6 +105,10 @@ namespace Galaga
                     eventBus.ProcessEvents();
                     IterateShots();
                     movement.MoveEnemies(formation2.Enemies);
+                    if (formation2.Enemies.CountEntities() == 0){
+                        var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
+                        formation2.CreateEnemies(images, enemyStridesRed);
+                    }
                 }
 
                 if (gameTimer.ShouldRender()) {
@@ -151,8 +155,7 @@ namespace Galaga
                             if(enemy.hitpoints<=0) {
                                 AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                                 enemy.DeleteEntity();
-                            }
-                           
+                            }                        
                         }
 
                     });

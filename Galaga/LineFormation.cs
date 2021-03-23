@@ -6,7 +6,7 @@ namespace Galaga {
     public class LineFormation : ISquadron{
         EntityContainer<Enemy> _enemies;
 
-        private int _MaxEnemies = 10;
+        private int _MaxEnemies = 5;
 
         EntityContainer<Enemy> ISquadron.Enemies {
             get {
