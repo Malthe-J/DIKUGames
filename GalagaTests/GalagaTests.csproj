@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Galaga\Galaga.csproj" />
+    <ProjectReference Include="..\DIKUArcade\DIKUArcade\DIKUArcade.csproj" />
   </ItemGroup>
 
 </Project>
