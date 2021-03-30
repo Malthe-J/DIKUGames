@@ -24,14 +24,15 @@ namespace Galaga
         private const int EXPLOSION_LENGTH_MS = 500;
         private List<Image> enemyStridesRed;
 
-        private Squadron.ISquadron formation1;
-        
-        private Squadron.ISquadron formation2;
-        private Squadron.ISquadron formation3;
+        private Squadron.ISquadron formation;
 
         private MovementStrategy.IMovementStrategy movement;
 
         private Enemy testEnemy;
+
+        private bool EndGame;
+
+        private Score score;
 
 
 
@@ -54,13 +55,9 @@ namespace Galaga
                 enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.1f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, images)));
             }*/
             testEnemy = new Enemy(new DynamicShape(new Vec2F(0.0f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, images));
-            formation1 = new VFormation();
-            formation2 = new LineFormation();
-            formation3 = new ReverseVFormation();
-            movement = new MovementStrategy.ZigZagMove();
-            formation1.CreateEnemies(images, enemyStridesRed);
-            formation2.CreateEnemies(images, enemyStridesRed);
-            formation3.CreateEnemies(images, enemyStridesRed);
+            formation = new LineFormation();
+            movement = new MovementStrategy.MoveDown();
+            formation.CreateEnemies(images, enemyStridesRed);
             playerShots = new EntityContainer<PlayerShot>();
             playerShotImage = new Image(Path.Combine("Assets", "Images", "BulletRed2.png"));  
             enemyExplosions = new AnimationContainer(numEnemies);   
@@ -68,6 +65,8 @@ namespace Galaga
             Path.Combine("Assets", "Images", "Explosion.png")); 
             enemyStridesRed = ImageStride.CreateStrides(2,
                 Path.Combine("Assets", "Images", "RedMonster.png"));
+            EndGame = false;
+            score = new Score(new Vec2F(0.75f, 0.6f), new Vec2F(0.4f, 0.4f));
         }
         public void KeyPress(string key) {
             switch (key){
@@ -104,27 +103,35 @@ namespace Galaga
                     window.PollEvents();
                     eventBus.ProcessEvents();
                     IterateShots();
-                    movement.MoveEnemies(formation2.Enemies);
-                    if (formation2.Enemies.CountEntities() == 0){
+                    movement.MoveEnemies(formation.Enemies);
+                    if (formation.Enemies.CountEntities() == 0){
                         var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
-                        formation2.CreateEnemies(images, enemyStridesRed);
+                        newFormation();
+                        formation.CreateEnemies(images, enemyStridesRed);
+                        NewMovement();
                     }
+                    ShouldEnd();
                 }
 
                 if (gameTimer.ShouldRender()) {
                     window.Clear();
 
-                    player.Move();
+                    if (!EndGame)
+                    {
+                        player.Move();
 
-                    player.Render();
+                        player.Render();
 
                     //enemies.RenderEntities();
-                    formation2.Enemies.RenderEntities();
+                        formation.Enemies.RenderEntities();
                     //testEnemy.RenderEntity();
                     
-                    playerShots.RenderEntities();
+                        playerShots.RenderEntities();
 
-                    enemyExplosions.RenderAnimations();
+                        enemyExplosions.RenderAnimations();
+                    }
+
+                    score.RenderScore();
 
                     window.SwapBuffers();
 
@@ -143,7 +150,7 @@ namespace Galaga
                     shot.DeleteEntity();
                 }
                 else {
-                    formation2.Enemies.Iterate(enemy =>{
+                    formation.Enemies.Iterate(enemy =>{
                         if (CollisionDetection.Aabb(shot.Shape.AsDynamicShape(), enemy.Shape).Collision){
                             shot.DeleteEntity();
                             enemy.hitpoints--;
@@ -155,6 +162,7 @@ namespace Galaga
                             if(enemy.hitpoints<=0) {
                                 AddExplosion(enemy.Shape.Position, enemy.Shape.Extent);
                                 enemy.DeleteEntity();
+                                score.AddPoint();
                             }                        
                         }
 
@@ -165,6 +173,48 @@ namespace Galaga
         public void AddExplosion(Vec2F position, Vec2F extent) {
             StationaryShape ExplodeMonster = new StationaryShape (position, extent);
             enemyExplosions.AddAnimation(ExplodeMonster, EXPLOSION_LENGTH_MS, new ImageStride (EXPLOSION_LENGTH_MS/8, explosionStrides));
+        }
+
+        void newFormation()
+        {
+            var rand = new System.Random();
+            int f = rand.Next(1, 4); // random number for formation
+            switch(f)
+            {
+                case 1:
+                    formation = new LineFormation();
+                    return;
+                case 2:
+                    formation = new VFormation();
+                    return;
+                case 3:
+                    formation = new ReverseVFormation();
+                    return;
+            }
+        }
+
+        void NewMovement()
+        {
+            var rand = new System.Random();
+            int m = rand.Next(1, 3); // random number for movement
+            switch (m)
+            {
+                case 1:
+                    movement = new MovementStrategy.MoveDown();
+                    return;
+                case 2:
+                    movement = new MovementStrategy.ZigZagMove();
+                    return;
+            }
+        }
+
+        void ShouldEnd()
+        {
+            formation.Enemies.Iterate(enemy => {
+                if (enemy.Shape.Position.Y <= 0.1f) {
+                    EndGame = true;
+                }
+            });
         }
     }
 }

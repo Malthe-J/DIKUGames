@@ -24,10 +24,10 @@ namespace Galaga {
         }
 
         public void Move() {
-          if(shape.Position.X < 0.0)
-          {
-              shape.Position.X = 0.0f;     
-          }
+            if(shape.Position.X < 0.0)
+            {
+                shape.Position.X = 0.0f;     
+            }
           else if (shape.Position.X > 0.9)
           {
               shape.Position.X = 0.9f;

@@ -7,6 +7,8 @@ namespace Galaga.Squadron {
         EntityContainer<Enemy> Enemies{get;}
         int MaxEnemies {get;}
 
-         void CreateEnemies(List<Image> enemyStrides, List<Image> alternativeEnemyStrides);
+        void CreateEnemies(List<Image> enemyStrides, List<Image> alternativeEnemyStrides);
+
+        
     }
 }

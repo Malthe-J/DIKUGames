@@ -30,7 +30,7 @@ namespace Galaga {
         {
             
             for (int i = 0; i < _MaxEnemies; i++){
-                _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.0f + (float)i * 0.1f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
+                _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.05f + (float)i * 0.2f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
             }
         }
     }

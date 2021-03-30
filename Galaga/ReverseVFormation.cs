@@ -18,7 +18,7 @@ namespace Galaga {
                 return _MaxEnemies;
             }
         }
-//         ░░░░░░░░▄▄▄▀▀▀▄▄███▄░░░░░░░░░░░░░░
+// ░░░░░░░░▄▄▄▀▀▀▄▄███▄░░░░░░░░░░░░░░
 // ░░░░░▄▀▀░░░░░░░▐░▀██▌░░░░░░░░░░░░░
 // ░░░▄▀░░░░▄▄███░▌▀▀░▀█░░░░░░░░░░░░░
 // ░░▄█░░▄▀▀▒▒▒▒▒▄▐░░░░█▌░░░░░░░░░░░░
@@ -38,11 +38,11 @@ namespace Galaga {
 
         void ISquadron.CreateEnemies(System.Collections.Generic.List<DIKUArcade.Graphics.Image> enemyStrides, System.Collections.Generic.List<DIKUArcade.Graphics.Image> alternativeEnemyStrides)
         {
-            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.1f, 0.8f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
-            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.9f, 0.8f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
-            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.3f, 0.85f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
-            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.7f, 0.85f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
-            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.5f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
+            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.05f, 0.8f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
+            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.85f, 0.8f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
+            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.25f, 0.85f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
+            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.65f, 0.85f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
+            _enemies.AddEntity(new Enemy(new DynamicShape(new Vec2F(0.45f, 0.9f), new Vec2F(0.1f, 0.1f)), new ImageStride(80, enemyStrides)));
             
         }
     }
