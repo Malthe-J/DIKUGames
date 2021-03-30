@@ -122,9 +122,9 @@ namespace Galaga
 
                         player.Render();
 
-                    //enemies.RenderEntities();
+                   
                         formation.Enemies.RenderEntities();
-                    //testEnemy.RenderEntity();
+                    
                     
                         playerShots.RenderEntities();
 
