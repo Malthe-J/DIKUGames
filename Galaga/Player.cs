@@ -96,5 +96,9 @@ namespace Galaga {
         public Vec2F GetPosition(){
             return shape.Position;
         }
+
+        public Vec2F GetExtent(){
+            return shape.Extent;
+        }
     }
 }
