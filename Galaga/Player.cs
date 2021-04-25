@@ -1,10 +1,11 @@
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
-using DIKUArcade.EventBus;
+using DIKUArcade.Events;
+using DIKUArcade.Input;
 
 namespace Galaga {
-    public class Player : IGameEventProcessor<object> {
+    public class Player {
         private Entity entity;
         private DynamicShape shape;
 
@@ -47,33 +48,33 @@ namespace Galaga {
             UpdateDirection();
         }
 
-        public void KeyRelease(string key) {
+        public void KeyRelease(KeyboardKey key) {
                 switch (key) {
-                    case "KEY_LEFT" :
+                    case KeyboardKey.Left:
                         this.SetMoveLeft(false);
                         break;
-                    case "KEY_RIGHT" :
+                    case KeyboardKey.Right:
                         this.SetMoveRight(false);
                         break;
                 }
         }
-           public void KeyPress(string key) {
+           public void KeyPress(KeyboardKey key) {
             switch (key){
-                case "KEY_LEFT":
+                case KeyboardKey.Left:
                     this.SetMoveLeft(true);
                     break;
-                case "KEY_RIGHT":
+                case KeyboardKey.Right:
                     this.SetMoveRight(true);
                     break;
               }
         }
-            public void ProcessEvent(GameEventType type, GameEvent<object> gameEvent) {
-            switch (gameEvent.Parameter1) {
-                case "KEY_PRESS":
-                    KeyPress(gameEvent.Message);
+            public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
+            switch (action) {
+                case KeyboardAction.KeyPress:
+                    KeyPress(key);
                     break;
-                case "KEY_RELEASE":
-                    KeyRelease(gameEvent.Message);
+                case KeyboardAction.KeyRelease:
+                    KeyRelease(key);
                     break;
                 default:
                 break;

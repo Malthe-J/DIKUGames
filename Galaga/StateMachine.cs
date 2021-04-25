@@ -1,9 +1,12 @@
-using DIKUArcade.EventBus;
+using DIKUArcade.Events;
 using DIKUArcade.State;
-using DIKUArcade;
+using DIKUArcade.Input;
+using DIKUArcade.GUI;
+using Galaga.GalagaStates;
+
 
 namespace Galaga.GalagaStates {
-    public class StateMachine : IGameEventProcessor<object> {
+    public class StateMachine : IGameEventProcessor {
         public IGameState ActiveState { get; private set; }
         public GalagaStates.GameStateType prevType;
 
@@ -16,6 +19,7 @@ namespace Galaga.GalagaStates {
             ActiveState = MainMenu.GetInstance(ref window);
             prevType = GalagaStates.GameStateType.MainMenu;
             this.window = window;
+            window.SetKeyEventHandler(KeyHandler);
         }
 
         private void SwitchState(GameStateType stateType) {
@@ -25,7 +29,7 @@ namespace Galaga.GalagaStates {
                     prevType = GalagaStates.GameStateType.GameRunning;
                     break;
                 case GameStateType.GamePaused:
-                    //ActiveState= GamePaused.GetInstance();
+                    ActiveState= GamePaused.GetInstance(ref window);
                     break;
                 case GameStateType.MainMenu:
                     ActiveState= MainMenu.GetInstance(ref window);
@@ -33,23 +37,21 @@ namespace Galaga.GalagaStates {
                     break;
              }
         }
-        public void ProcessEvent(GameEventType type, GameEvent<object> gameEvent) {
-            switch (gameEvent.Parameter1) {
-                case "KEY_PRESS":
-                    ActiveState.HandleKeyEvent("KEY_PRESS", gameEvent.Message);
-                    break;
-                case "KEY_RELEASE":
-                    ActiveState.HandleKeyEvent("KEY_RELEASE", gameEvent.Message);
-                    break;
+        public void ProcessEvent(GameEvent gameEvent) {
+            switch (gameEvent.StringArg1) {
                 case "CHANGE_STATE":
-                    switch(gameEvent.Message) {
-                        case "GAME_RUNNING":
-                            SwitchState(GameStateType.GameRunning);
-                            break;
-                        case "MAIN_MENU":
-                            SwitchState(GameStateType.MainMenu);
-                            break;
-                    }
+                    SwitchState(StateTransformer.TransFormStringToState(gameEvent.Message));
+                    break;
+            }
+        }
+
+        private void KeyHandler(KeyboardAction action, KeyboardKey key) {
+            switch(action){
+                case KeyboardAction.KeyPress:
+                    ActiveState.HandleKeyEvent(action, key);
+                    break;
+                case KeyboardAction.KeyRelease:
+                    ActiveState.HandleKeyEvent(action, key);
                     break;
             }
         }

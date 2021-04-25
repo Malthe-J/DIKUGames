@@ -1,15 +1,14 @@
-using DIKUArcade;
+using DIKUArcade.Input;
 using System.IO;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using System.Collections.Generic;
-using DIKUArcade.EventBus;
+using DIKUArcade.Events;
 using DIKUArcade.Physics;
 using DIKUArcade.State;
 namespace Galaga {
     public class GameRunning : IGameState {
-
         private static GameRunning instance = null;
         private Player player;
         private EntityContainer<PlayerShot> playerShots;
@@ -67,16 +66,13 @@ namespace Galaga {
 
             formation.Enemies.Iterate(enemy => {
                 if (enemy.Shape.Position.Y <= 0.1f) {
-                   GalagaBus.GetBus().RegisterEvent(GameEventFactory<object>.CreateGameEventForAllProcessors(
-                                                            GameEventType.GameStateEvent,
-                                                            this,
-                                                            "MAIN_MENU",
-                                                            "CHANGE_STATE", ""));
+                   GalagaBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
+                                                                Message = "MainMenu", StringArg1 = "CHANGE_STATE"});
                 }
             });
 
         }
-        public void UpdateGameLogic(){
+        public void UpdateState(){
             movement.MoveEnemies(formation.Enemies);
             GameLoop();
         }
@@ -93,19 +89,17 @@ namespace Galaga {
 
             score.RenderScore();
         }
-        public void HandleKeyEvent(string keyValue, string keyAction) {
-            if (keyValue == "KEY_PRESS") {
-                switch (keyAction){
-                    case "KEY_SPACE":
+        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
+            player.HandleKeyEvent(action, key);
+            if (action == KeyboardAction.KeyPress) {
+                switch (key){
+                    case KeyboardKey.Space:
                         Vec2F temp = new Vec2F(player.GetPosition().X + player.GetExtent().X / 2, 0.2f);
                         playerShots.AddEntity(new PlayerShot(temp, playerShotImage));
                         break;
-                    case "KEY_ESCAPE":
-                        GalagaBus.GetBus().RegisterEvent(GameEventFactory<object>.CreateGameEventForAllProcessors(
-                                                            GameEventType.GameStateEvent,
-                                                            this,
-                                                            "MAIN_MENU",
-                                                            "CHANGE_STATE", ""));
+                    case KeyboardKey.Escape:
+                        GalagaBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
+                                                                Message = "GamePaused", StringArg1 = "CHANGE_STATE"});
                         break;
                 }
             }
@@ -114,7 +108,6 @@ namespace Galaga {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.1f, 0.1f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
-            GalagaBus.GetBus().Subscribe(GameEventType.InputEvent, player);
             var images = ImageStride.CreateStrides(4, Path.Combine("Assets", "Images", "BlueMonster.png"));
             enemyStridesRed = ImageStride.CreateStrides(2,
                 Path.Combine("Assets", "Images", "RedMonster.png"));
@@ -165,6 +158,11 @@ namespace Galaga {
                     movement = new MovementStrategy.ZigZagMove();
                     return;
             }
+        }
+
+        public void ResetState()
+        {
+
         }
     }
 }

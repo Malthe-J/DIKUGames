@@ -1,13 +1,9 @@
-using DIKUArcade;
+using DIKUArcade.GUI;
 using DIKUArcade.Timers;
-using System.IO;
-using DIKUArcade.Entities;
-using DIKUArcade.Graphics;
-using DIKUArcade.Math;
 using System.Collections.Generic;
-using DIKUArcade.EventBus;
-using DIKUArcade.Physics;
+using DIKUArcade.Events;
 using Galaga.GalagaStates;
+using DIKUArcade;
 
 
 namespace Galaga
@@ -17,12 +13,12 @@ namespace Galaga
         private GameTimer gameTimer;
         private StateMachine state;
         public Game(){
-            window = new Window("Galaga", 500, 500);
+            window = new Window(new WindowArgs {Title = "Galaga", Width = 500, Height = 500});
             gameTimer = new GameTimer(60, 60);
             GalagaBus.GetBus();
             GalagaBus.GetBus().InitializeEventBus(new List<GameEventType> { GameEventType.
             InputEvent, GameEventType.GameStateEvent });
-            window.RegisterEventBus(GalagaBus.GetBus());
+            //window.RegisterEventBus();
             state = new StateMachine(ref window);
         }
         public void Run() {
@@ -32,7 +28,7 @@ namespace Galaga
                 while (gameTimer.ShouldUpdate()){
                     window.PollEvents();
                     GalagaBus.GetBus().ProcessEvents();
-                    state.ActiveState.UpdateGameLogic();
+                    state.ActiveState.UpdateState();
                 }
                 if (gameTimer.ShouldRender()){
                     window.Clear();

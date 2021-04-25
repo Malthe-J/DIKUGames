@@ -1,9 +1,10 @@
-using DIKUArcade;
+using DIKUArcade.Input;
 using DIKUArcade.State;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
-using DIKUArcade.EventBus;
+using DIKUArcade.Events;
+using DIKUArcade.GUI;
 using System.IO;
 
 namespace Galaga.GalagaStates {
@@ -22,10 +23,7 @@ namespace Galaga.GalagaStates {
         public static MainMenu GetInstance(ref Window window) {
             return MainMenu.instance ?? (MainMenu.instance = new MainMenu(ref window));
         }
-        public void GameLoop() {
-
-        }
-        public void UpdateGameLogic(){  
+        public void UpdateState(){  
         }
         public void RenderState() {
             backGroundImage.RenderEntity();
@@ -39,24 +37,21 @@ namespace Galaga.GalagaStates {
                 }
             }
         }
-        public void HandleKeyEvent(string keyValue, string keyAction) {
-            if (keyValue == "KEY_PRESS")
+        public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
+            if (action == KeyboardAction.KeyPress)
             {
-                switch (keyAction) {
-                    case "KEY_UP": 
+                switch (key) {
+                    case KeyboardKey.Up: 
                         activeMenuButton = 0;
                         break;
-                    case "KEY_DOWN":
+                    case KeyboardKey.Down:
                         activeMenuButton = 1;
                         break;
-                    case "KEY_ENTER":
+                    case KeyboardKey.Enter:
                         if (activeMenuButton == 0)
                         {
-                            GalagaBus.GetBus().RegisterEvent(GameEventFactory<object>.CreateGameEventForAllProcessors(
-                                                            GameEventType.GameStateEvent,
-                                                            this,
-                                                            "GAME_RUNNING",
-                                                            "CHANGE_STATE", ""));
+                            GalagaBus.GetBus().RegisterEvent(new GameEvent {EventType = GameEventType.GameStateEvent, 
+                                                                            Message = "GameRunning", StringArg1 = "CHANGE_STATE"});
                         }
                         else if (activeMenuButton == 1)
                         {
@@ -76,6 +71,11 @@ namespace Galaga.GalagaStates {
             menuButtons[0].SetFontSize(40);
             menuButtons[1] = new Text("Quit", new Vec2F(0.4f, 0.3f), new Vec2F(0.4f, 0.4f));
             menuButtons[1].SetFontSize(40);
+        }
+
+        public void ResetState()
+        {
+
         }
     }
 }
