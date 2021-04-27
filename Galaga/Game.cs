@@ -37,7 +37,7 @@ namespace Galaga
 
                     window.SwapBuffers();
                 }
-
+// xd omg
                 if (gameTimer.ShouldReset()){
                    window.Title = $"Galaga | (UPS, FPS): ({gameTimer.CapturedUpdates}, {gameTimer.CapturedFrames})";
                 }
