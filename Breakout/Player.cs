@@ -52,9 +52,11 @@ namespace Breakout {
         public void KeyRelease(KeyboardKey key) {
                 switch (key) {
                     case KeyboardKey.Left:
+                    case KeyboardKey.A:
                         this.SetMoveLeft(false);
                         break;
                     case KeyboardKey.Right:
+                    case KeyboardKey.D:
                         this.SetMoveRight(false);
                         break;
                 }
@@ -62,9 +64,11 @@ namespace Breakout {
            public void KeyPress(KeyboardKey key) {
             switch (key){
                 case KeyboardKey.Left:
+                case KeyboardKey.A:
                     this.SetMoveLeft(true);
                     break;
                 case KeyboardKey.Right:
+                case KeyboardKey.D:
                     this.SetMoveRight(true);
                     break;
               }
