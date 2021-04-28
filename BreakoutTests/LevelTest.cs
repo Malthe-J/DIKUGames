@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Breakout;
 
 namespace BreakoutTests
 {
@@ -12,35 +13,48 @@ namespace BreakoutTests
         [Test]
         public void TestLevel1()
         {
-            assert.AreEqual("LEVEL 1", Level.GetName());
-            assert.AreEqual(300, Level.GetTime());
-            assert.AreEqual("#", Level.GetHardened());
-            assert.AreEqual(2, Level.GetPowerUp());
+            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\level1.txt");
+            
+            Assert.AreEqual("LEVEL 1\r", leveltest.Name);
+            Assert.AreEqual(300, leveltest.Time);
+            Assert.AreEqual('#', leveltest.Hardened);
+            Assert.AreEqual('2', leveltest.PowerUp);
         }
+        [Test]
         public void TestLevel2()
         {
-            assert.AreEqual("LEVEL 2", Level.GetName());
-            assert.AreEqual(180, Level.GetTime());
-            assert.AreEqual(2, Level.GetPowerUp());
+            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\level2.txt");
+
+            Assert.AreEqual("LEVEL 2", leveltest.Name);
+            Assert.AreEqual(180, leveltest.Time);
+            Assert.AreEqual('d', leveltest.PowerUp);
         }
+        [Test]
         public void TestLevel3()
         {
-            assert.AreEqual("LEVEL 3", Level.GetName());
-            assert.AreEqual(180, Level.GetTime());
-            assert.AreEqual("%", Level.GetPowerUp());
-            assert.AreEqual("X", Level.GetUnbreakable());
+            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\level3.txt");
+            Assert.AreEqual("LEVEL 3", leveltest.Name);
+            Assert.AreEqual(180, leveltest.Time);
+            Assert.AreEqual('%', leveltest.PowerUp);
+            Assert.AreEqual('X', leveltest.Unbreakable);
         }
+        [Test]
          public void Wall()
         {
-            assert.AreEqual("Central Mass", Level.GetName());
+            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\wall.txt");
+            Assert.AreEqual("Central Mass", leveltest.Name);
         }
+        [Test]
         public void Columns()
         {
-            assert.AreEqual("Columns", Level.GetName());
+            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\columns.txt");
+            Assert.AreEqual("Columns", leveltest.Name);
         }
-        public void Cemtral_Mass()
+        [Test]
+        public void Central_Mass()
         {
-            assert.AreEqual("Central Mass", Level.GetName());
+            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\central-mass.txt");
+            Assert.AreEqual("Central Mass", leveltest.Name);
         }
     }
 }

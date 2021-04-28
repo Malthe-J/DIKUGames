@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Breakout\Breakout.csproj" />
+    <ProjectReference Include="..\DIKUArcade\DIKUArcade\DIKUArcade.csproj" />
+  </ItemGroup>
+
 </Project>
