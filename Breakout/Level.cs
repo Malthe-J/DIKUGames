@@ -182,16 +182,16 @@ namespace Breakout {
                             textures.TryGetValue(levelStorageSplitMap[i][j], out image);
                             Console.WriteLine($"HELLO WORLD, {i} {j}");
                             Console.WriteLine($"x: {x*j}, y: {y*i}");
-                            blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),image));
+                            blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),image, 2));
                         }
                     }
                     
                     
                 }
             }
-            catch (System.Exception e)
+            catch (FileNotFoundException)
             {
-                Console.WriteLine(e.Message);
+                ReadFile(Path.Combine("Assets", "Levels", "wall.txt"));
             }
         
 

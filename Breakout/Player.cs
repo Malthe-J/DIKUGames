@@ -26,27 +26,29 @@ namespace Breakout {
         }
 
         public void Move() {
-            if(shape.Position.X < 0.0)
+            UpdateDirection();
+            if(shape.Position.X + shape.Direction.X < 0.0)
             {
                 shape.Position.X = 0.0f;     
             }
-          else if (shape.Position.X > 0.9)
+          else if (shape.Position.X + shape.Direction.X > 0.925)
           {
-              shape.Position.X = 0.9f;
+                shape.Position.X = 0.925f;
           }
           else {
-              shape.Move();
+                shape.Move();
           }
         }
 
         private void SetMoveLeft(bool val) {
-            if (val) {
+            if (val && shape.Position.X + MOVEMENT_SPEED > 0.0f) {
                 moveLeft = MOVEMENT_SPEED;
+                UpdateDirection();
             }else {
                 moveLeft = 0;
             }
 
-            UpdateDirection();
+            
         }
 
         public void KeyRelease(KeyboardKey key) {

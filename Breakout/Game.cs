@@ -20,7 +20,7 @@ namespace Breakout
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
             window.SetKeyEventHandler(KeyHandler);
 
-            Levels = new Level(Path.Combine("Assets","Levels", "Level3.txt"));
+            Levels = new Level(Path.Combine("Assets","Levels", "Level4.txt"));
         }
         public override void Update() {
             player.Move();

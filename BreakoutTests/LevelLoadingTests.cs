@@ -13,7 +13,7 @@ namespace BreakoutTests
         [Test]
         public void TestLevel1()
         {
-            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\level1.txt");
+            Level leveltest = new Level("..\\..\\..\\Assets\\Levels\\level1.txt");
             
             Assert.AreEqual("LEVEL 1", leveltest.Name);
             Assert.AreEqual(300, leveltest.Time);
@@ -23,7 +23,7 @@ namespace BreakoutTests
         [Test]
         public void TestLevel2()
         {
-            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\level2.txt");
+            Level leveltest = new Level("..\\..\\..\\Assets\\Levels\\level2.txt");
 
             Assert.AreEqual("LEVEL 2", leveltest.Name);
             Assert.AreEqual(180, leveltest.Time);
@@ -32,7 +32,7 @@ namespace BreakoutTests
         [Test]
         public void TestLevel3()
         {
-            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\level3.txt");
+            Level leveltest = new Level("..\\..\\..\\Assets\\Levels\\level3.txt");
             Assert.AreEqual("LEVEL 3", leveltest.Name);
             Assert.AreEqual(180, leveltest.Time);
             Assert.AreEqual('%', leveltest.PowerUp);
@@ -41,19 +41,19 @@ namespace BreakoutTests
         [Test]
          public void Wall()
         {
-            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\wall.txt");
+            Level leveltest = new Level("..\\..\\..\\Assets\\Levels\\wall.txt");
             Assert.AreEqual("Central Mass", leveltest.Name);
         }
         [Test]
         public void Columns()
         {
-            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\columns.txt");
+            Level leveltest = new Level("..\\..\\..\\Assets\\Levels\\columns.txt");
             Assert.AreEqual("Columns", leveltest.Name);
         }
         [Test]
         public void Central_Mass()
         {
-            Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\central-mass.txt");
+            Level leveltest = new Level("..\\..\\..\\Assets\\Levels\\central-mass.txt");
             Assert.AreEqual("Central Mass", leveltest.Name);
         }
     }
