@@ -42,6 +42,7 @@ namespace Breakout {
 
         public Level(string FilePath){
             textures = new Dictionary<char, IBaseImage>();
+            blocks = new EntityContainer<Block>();
             ReadFile(FilePath);
         }
         private void ReadFile(string FilePath){
@@ -169,15 +170,19 @@ namespace Breakout {
                    }
                 }
                 float x = 0.0f;
-                float y = (levelStorageSplitMap.Length-2)/0.8f;
+                float yCoord = 1.0f / (levelStorageSplitMap.Length-2);
+                Console.WriteLine(levelStorageSplitMap.Length-2);
 
-                for (int i = 1; i < levelStorageSplitMap.Length -1; i++){
+                for (int i = 1; i < levelStorageSplitMap.Length - 1; i++){
+                    float y = 1.0f - yCoord * i;
                     for (int j = 0; j < levelStorageSplitMap[j].Length; j++){
-                        x = (levelStorageSplitMap.Length - 1)/1.0f;
+                        x = 1.0f / (levelStorageSplitMap[j].Length - 1);
                         if (textures.ContainsKey(levelStorageSplitMap[i][j])){
                             IBaseImage image;
                             textures.TryGetValue(levelStorageSplitMap[i][j], out image);
-                            blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y*i), new Vec2F(x*(j+1), y*(i-1))),image));
+                            Console.WriteLine($"HELLO WORLD, {i} {j}");
+                            Console.WriteLine($"x: {x*j}, y: {y*i}");
+                            blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),image));
                         }
                     }
                     
