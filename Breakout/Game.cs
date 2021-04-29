@@ -34,6 +34,7 @@ namespace Breakout
         }
         public override void Render() {
             player.Render();
+            Levels.render();
         }
 
     }

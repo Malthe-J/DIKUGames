@@ -15,6 +15,7 @@ namespace Breakout {
         private char hardened;
         private char unbreakable;
         private Dictionary<char, IBaseImage> textures;
+        private EntityContainer<Block> blocks;
 
 
         public string Name{
@@ -50,11 +51,14 @@ namespace Breakout {
                 string[] levelStorageSplit = levelStorage.Split('/');
                 string[] levelStorageSplitMeta = levelStorageSplit[1].Split('\n');
                 string[] levelStorageSplitLegend = levelStorageSplit[2].Split('\n');
+                string[] levelStorageSplitMap = levelStorageSplit[0].Split('\n');
                 
                 int nameIndex = levelStorageSplitMeta[3].IndexOf("Name: ")+"Name: ".Length;
                 int lastIndex = levelStorageSplitMeta[3].LastIndexOf("\r");
                 name = levelStorageSplitMeta[3].Substring(nameIndex, lastIndex - nameIndex);
 
+
+                //Meta data read from file
                 for (int i = 4; i < levelStorageSplitMeta.Length -1; i++){
                     if (levelStorageSplitMeta[i].Contains("Time")){
                         int timeIndex = levelStorageSplitMeta[i].IndexOf("Time: ")+"Time: ".Length;
@@ -164,15 +168,33 @@ namespace Breakout {
                         Console.WriteLine(@temp +" p lvl3");
                    }
                 }
+                float x = 0.0f;
+                float y = (levelStorageSplitMap.Length-2)/0.8f;
+
+                for (int i = 1; i < levelStorageSplitMap.Length -1; i++){
+                    for (int j = 0; j < levelStorageSplitMap[j].Length; j++){
+                        x = (levelStorageSplitMap.Length - 1)/1.0f;
+                        if (textures.ContainsKey(levelStorageSplitMap[i][j])){
+                            IBaseImage image;
+                            textures.TryGetValue(levelStorageSplitMap[i][j], out image);
+                            blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y*i), new Vec2F(x*(j+1), y*(i-1))),image));
+                        }
+                    }
+                    
+                    
+                }
             }
             catch (System.Exception e)
             {
                 Console.WriteLine(e.Message);
             }
+        
 
         }
     
-    
+        public void render(){
+            blocks.RenderEntities();
+        }
 
 
 
