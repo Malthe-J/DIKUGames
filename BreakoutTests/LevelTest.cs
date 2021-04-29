@@ -15,7 +15,7 @@ namespace BreakoutTests
         {
             Level leveltest = new Level("..\\..\\..\\..\\Breakout\\Assets\\Levels\\level1.txt");
             
-            Assert.AreEqual("LEVEL 1\r", leveltest.Name);
+            Assert.AreEqual("LEVEL 1", leveltest.Name);
             Assert.AreEqual(300, leveltest.Time);
             Assert.AreEqual('#', leveltest.Hardened);
             Assert.AreEqual('2', leveltest.PowerUp);

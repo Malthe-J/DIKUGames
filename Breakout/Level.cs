@@ -52,7 +52,8 @@ namespace Breakout {
                 string[] levelStorageSplitLegend = levelStorageSplit[2].Split('\n');
                 
                 int nameIndex = levelStorageSplitMeta[3].IndexOf("Name: ")+"Name: ".Length;
-                name = levelStorageSplitMeta[3].Substring(nameIndex);
+                int lastIndex = levelStorageSplitMeta[3].LastIndexOf("\r");
+                name = levelStorageSplitMeta[3].Substring(nameIndex, lastIndex - nameIndex);
 
                 for (int i = 4; i < levelStorageSplitMeta.Length -1; i++){
                     if (levelStorageSplitMeta[i].Contains("Time")){
@@ -75,6 +76,8 @@ namespace Breakout {
                         unbreakable = characters[0];
                     }                    
                 }
+
+                // Legend Data read from file
                 for(int i = 3; i<levelStorageSplitLegend.Length; i++) {
                    if (levelStorageSplitLegend[i].Contains("#) ")) {
                         int Index = levelStorageSplitLegend[i].IndexOf("#) ")+"#) ".Length;
