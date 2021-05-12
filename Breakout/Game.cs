@@ -21,6 +21,7 @@ namespace Breakout
             window.SetKeyEventHandler(KeyHandler);
 
             Levels = new Level(Path.Combine("Assets","Levels", "Level3.txt"));
+            Level level3 = new Level(Path.Combine("Assets","Levels", "Level3.txt"));
         }
         public override void Update() {
             player.Move();
