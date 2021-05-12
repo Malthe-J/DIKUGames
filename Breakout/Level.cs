@@ -12,6 +12,8 @@ namespace Breakout {
         private Dictionary<char, IBaseImage> textures;
         private MetaData metaData;
 
+        private LegendData legend;
+
 
         public MetaData MetaDat{
             get{return metaData;}
@@ -33,6 +35,9 @@ namespace Breakout {
                 string[] levelStorageSplitMeta = levelStorageSplit[1].Split('\n');
                 string[] levelStorageSplitLegend = levelStorageSplit[2].Split('\n');
                 string[] levelStorageSplitMap = levelStorageSplit[0].Split('\n');
+
+                legend = new LegendData(levelStorageSplitLegend);
+                textures = legend.GetDic();
                 
             }
             catch (FileNotFoundException)
