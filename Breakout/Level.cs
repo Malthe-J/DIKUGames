@@ -180,7 +180,7 @@ namespace Breakout {
                         if (textures.ContainsKey(levelStorageSplitMap[i][j])){
                             IBaseImage image;
                             textures.TryGetValue(levelStorageSplitMap[i][j], out image);
-                            Console.WriteLine($"HELLO WORLD, {i} {j}");
+                            Console.WriteLine($"Kappa WORLD, {i} {j}");
                             Console.WriteLine($"x: {x*j}, y: {y*i}");
                             blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),image, 2));
                         }
