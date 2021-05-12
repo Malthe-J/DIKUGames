@@ -1,6 +1,4 @@
-using DIKUArcade.Input;
 using DIKUArcade.State;
-using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
@@ -34,7 +32,7 @@ namespace Galaga.GalagaStates {
 
         public void RenderState() {
             Title.SetColor(System.Drawing.Color.Yellow);
-            Title.RenderText();
+            Title.RenderText(); 
             for(int i = 0; i < maxMenuButtons; i++) {
                 if (i == activeMenuButton) {
                     menuButtons[i].SetColor(System.Drawing.Color.White);

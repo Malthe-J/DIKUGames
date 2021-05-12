@@ -108,5 +108,9 @@ namespace Breakout {
         public Vec2F GetExtent(){
             return shape.Extent;
         }
+
+        public Shape GetShape(){
+            return shape;
+        }
     }
 }
