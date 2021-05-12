@@ -57,6 +57,7 @@ namespace Breakout {
                 string[] levelStorageSplitMap = levelStorageSplit[0].Split('\n');
 
                 legend = new LegendData(levelStorageSplitLegend);
+                textures = legend.GetDic();
                 
                 int nameIndex = levelStorageSplitMeta[3].IndexOf("Name: ")+"Name: ".Length;
                 int lastIndex = levelStorageSplitMeta[3].LastIndexOf("\r");
@@ -86,81 +87,6 @@ namespace Breakout {
                     }                    
                 }
 
-                // Legend Data read from file
-                for(int i = 3; i<levelStorageSplitLegend.Length; i++) {
-                   if (levelStorageSplitLegend[i].Contains("#) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("#) ")+"#) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('#', new Image(Path.Combine("Assets", "Images", temp)));
-                   } 
-                   if (levelStorageSplitLegend[i].Contains("1) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("1) ")+"1) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('1', new Image(Path.Combine("Assets", "Images", temp)));
-                   } 
-                   if (levelStorageSplitLegend[i].Contains("2) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("2) ")+"2) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('2', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                   if (levelStorageSplitLegend[i].Contains("q) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("q) ")+"q) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('q', new Image(Path.Combine("Assets", "Images", temp)));
-                   }  
-                   if (levelStorageSplitLegend[i].Contains("a) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("a) ")+"a) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('a', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                    if (levelStorageSplitLegend[i].Contains("b) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("b) ")+"b) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('b', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                    if (levelStorageSplitLegend[i].Contains("c) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("c) ")+"c) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('c', new Image(Path.Combine("Assets", "Images", temp)));
-                   } 
-                    if (levelStorageSplitLegend[i].Contains("d) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("d) ")+"d) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('d', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                   if (levelStorageSplitLegend[i].Contains("v) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("v) ")+"v) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('v', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                   if (levelStorageSplitLegend[i].Contains("%) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("%) ")+"%) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('%', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                   if (levelStorageSplitLegend[i].Contains("X) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("X) ")+"X) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('X', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                   if (levelStorageSplitLegend[i].Contains("p) ")) {
-                        int Index = levelStorageSplitLegend[i].IndexOf("p) ")+"p) ".Length;
-                        int LastIndex = levelStorageSplitLegend[i].LastIndexOf("\r");
-                        string temp = levelStorageSplitLegend[i].Substring(Index, LastIndex - Index);
-                        textures.Add('p', new Image(Path.Combine("Assets", "Images", temp)));
-                   }
-                }
                 float x = 0.0f;
                 float yCoord = 1.0f / (levelStorageSplitMap.Length-2);
                 Console.WriteLine(levelStorageSplitMap.Length-2);
