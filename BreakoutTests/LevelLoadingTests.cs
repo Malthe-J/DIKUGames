@@ -3,7 +3,7 @@ using Breakout;
 
 namespace BreakoutTests
 {
-    public class Tests
+    public class LevelLoadingTests
     {
         [SetUp]
         public void Setup() {
