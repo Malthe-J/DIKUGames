@@ -7,7 +7,7 @@ using DIKUArcade.Input;
 
 namespace Breakout {
     public class Block: Entity { 
-        private int value;
+        int value;
         private int health;
         public int Health{
             get{return health;}

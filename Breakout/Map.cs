@@ -30,5 +30,10 @@ namespace Breakout{
             }
         }
 
+        public void Render()
+        {
+            blocks.RenderEntities();
+        }
+
     }
 }

@@ -29,7 +29,9 @@ namespace Breakout {
             get{return unbreakable;}
         }
 
-
+        public MetaData(string[] levelStorageSplitMeta){
+            Meta(levelStorageSplitMeta);
+        }
 
         private void Meta(String[] levelStorageSplitMeta){
              
