@@ -13,9 +13,8 @@ namespace Breakout.BreakoutStates {
         public StateMachine(Window window) {
             BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-            ActiveState = GamePaused.GetInstance(window);
+            ActiveState = MainMenu.GetInstance(window);
             this.window = window;
-            //prevType = BreakoutStates.GameStateType.MainMenu;
             window.SetKeyEventHandler(KeyHandler);
         }
 
@@ -39,7 +38,7 @@ namespace Breakout.BreakoutStates {
                 case "CHANGE_STATE":
                     SwitchState(StateTransformer.TransFormStringToState(gameEvent.Message));
                     break;
-            } Console.WriteLine("hey");
+            } 
         }
 
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
