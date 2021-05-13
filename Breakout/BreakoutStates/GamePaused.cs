@@ -1,3 +1,4 @@
+using System;
 using DIKUArcade.State;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
@@ -57,12 +58,12 @@ namespace Breakout.BreakoutStates {
                         break;
                     case KeyboardKey.Enter:
                         if (activeMenuButton == 0)
-                        {
+                        {  
                             BreakoutBus.GetBus().RegisterEvent(new GameEvent {EventType = GameEventType.GameStateEvent, 
                                                                             Message = "GameRunning", StringArg1 = "CHANGE_STATE"});
                         }
                         else if (activeMenuButton == 1)
-                        {
+                        {   
                             BreakoutBus.GetBus().RegisterEvent(new GameEvent {EventType = GameEventType.GameStateEvent, 
                                                                             Message = "MainMenu", StringArg1 = "CHANGE_STATE"});
                         }

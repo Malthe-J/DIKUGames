@@ -14,7 +14,7 @@ namespace Breakout {
         private static GameRunning instance = null;
         private Player player;
         private Level level;
-        private List<Level> levels;
+       // private List<Level> levels;
 
         public GameRunning(){
             InitializeGameState();
@@ -51,12 +51,12 @@ namespace Breakout {
             player = new Player(
                 new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.15f/2.0f, 0.027f/2.0f)),
                 new Image(Path.Combine("Assets", "Images", "Player.png")));
-            //level = new Level(Path.Combine("Assets", "Levels" , "Level1.txt"));
-            levels = new List<Level>();
-            string[] File = Directory.GetFiles(Path.Combine("Assets", "Levels"));
-            foreach(var i in File) {
-                levels.Add(new Level (i));
-            }
+            level = new Level(Path.Combine("Assets", "Levels" , "Level1.txt"));
+            // levels = new List<Level>();
+            // string[] File = Directory.GetFiles(Path.Combine("Assets", "Levels"));
+            // foreach(var i in File) {
+            //     levels.Add(new Level (i));
+            // }
         }
 
 

@@ -5,6 +5,7 @@ using DIKUArcade.GUI;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using System.Collections.Generic;
 using Breakout.BreakoutStates;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
@@ -16,8 +17,10 @@ namespace Breakout
          
         public Game() : base(new WindowArgs {Title = "Breakout", Width = 500, Height = 500}) {
         state = new StateMachine(window);   
+        BreakoutBus.GetBus().InitializeEventBus(new List<GameEventType> {GameEventType.GameStateEvent});
         }
         public override void Update() {
+            BreakoutBus.GetBus().ProcessEvents();
             state.ActiveState.UpdateState();
         }
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {

@@ -3,6 +3,7 @@ using DIKUArcade.State;
 using DIKUArcade.Input;
 using DIKUArcade.GUI;
 using Breakout.BreakoutStates;
+using System;
 namespace Breakout.BreakoutStates {
     public class StateMachine : IGameEventProcessor {
         public IGameState ActiveState { get; private set; }
@@ -12,7 +13,7 @@ namespace Breakout.BreakoutStates {
         public StateMachine(Window window) {
             BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-            ActiveState = GameRunning.GetInstance();
+            ActiveState = GamePaused.GetInstance(window);
             this.window = window;
             //prevType = BreakoutStates.GameStateType.MainMenu;
             window.SetKeyEventHandler(KeyHandler);
@@ -38,7 +39,7 @@ namespace Breakout.BreakoutStates {
                 case "CHANGE_STATE":
                     SwitchState(StateTransformer.TransFormStringToState(gameEvent.Message));
                     break;
-            }
+            } Console.WriteLine("hey");
         }
 
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
