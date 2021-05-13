@@ -3,8 +3,6 @@ using DIKUArcade.State;
 using DIKUArcade.Input;
 using DIKUArcade.GUI;
 using Breakout.BreakoutStates;
-
-
 namespace Breakout.BreakoutStates {
     public class StateMachine : IGameEventProcessor {
         public IGameState ActiveState { get; private set; }
@@ -12,18 +10,18 @@ namespace Breakout.BreakoutStates {
         private Window window;
 
         public StateMachine(Window window) {
-            // BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
-            // BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
-            ActiveState = MainMenu.GetInstance(window);
-            window = window;
-            prevType = BreakoutStates.GameStateType.MainMenu;
+            BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
+            BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
+            ActiveState = GameRunning.GetInstance();
+            this.window = window;
+            //prevType = BreakoutStates.GameStateType.MainMenu;
             window.SetKeyEventHandler(KeyHandler);
         }
 
         private void SwitchState(GameStateType stateType) {
             switch (stateType) {
                 case GameStateType.GameRunning:
-                    ActiveState = GameRunning.GetInstance(prevType);
+                    ActiveState = GameRunning.GetInstance();
                     prevType = BreakoutStates.GameStateType.GameRunning;
                     break;
                 case GameStateType.GamePaused:

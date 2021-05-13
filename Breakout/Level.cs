@@ -24,7 +24,7 @@ namespace Breakout {
             map = new Map(loader.GetMapData(), legend.GetDic());
         }
 
-          public void render(){
+          public void Render(){
             map.Render();
           }
     }
