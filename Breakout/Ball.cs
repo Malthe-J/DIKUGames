@@ -56,37 +56,8 @@ namespace Breakout{
             }
         }
 
-        public void CollideWithBlock(EntityContainer<Block> blocks)
-        {
-            blocks.Iterate(block => {
-                if (CollisionDetection.Aabb(shape, block.GetShape()).Collision)
-                {
-                    switch (CollisionDetection.Aabb(shape, block.GetShape()).CollisionDir)
-                    {
-                        case CollisionDirection.CollisionDirLeft:
-                        {
-                            shape.Direction.X *= -1.0f;
-                            break;
-                        }
-                        case CollisionDirection.CollisionDirRight:
-                        {
-                            shape.Direction.X *= -1.0f;
-                            break;
-                        }
-                        case CollisionDirection.CollisionDirUp:
-                        {
-                            shape.Direction.Y *= -1.0f;
-                            break;
-                        }
-                        case CollisionDirection.CollisionDirDown:
-                        {
-                            shape.Direction.Y *= -1.0f;
-                            break;
-                        }
-                    }
-                    block.HealthDown();
-                }
-                });
+        public DynamicShape GetShape() {
+            return shape;
         }
     }
 }

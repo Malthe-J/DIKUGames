@@ -16,9 +16,12 @@ namespace Breakout {
         private Level level;
         private List<Level> levels;
         private Ball ball;
+        private ScoreBoard score;
+
+        private int activeLevel = 0;
 
         public GameRunning(){
-            InitializeGameState();
+            ResetState();
         }
         public static GameRunning GetInstance(BreakoutStates.GameStateType state) {
             if (state == BreakoutStates.GameStateType.MainMenu)
@@ -29,44 +32,41 @@ namespace Breakout {
         }
 
         public void GameLoop() {
+            player.Move();
+            ball.Move();
             ball.CollideWithPlayer(player);
-            ball.CollideWithBlock(level.GetBlocks());
+            CollideWithBlock(levels[activeLevel].GetBlocks());
         }
         public void UpdateState(){
             GameLoop();
         }
         public void RenderState() {
-            player.Move();
-            level.Render();
+            levels[activeLevel].Render();
             player.Render();
-            ball.Move();
             ball.Render();
+            score.RenderScore();
         }
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             player.HandleKeyEvent(action, key);
             if (action == KeyboardAction.KeyPress) {
                 switch (key){
                     case KeyboardKey.Escape:
-                    BreakoutBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
+                        BreakoutBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
                                                                 Message = "GamePaused", StringArg1 = "CHANGE_STATE"});
                         break;
+                    case KeyboardKey.F:
+                        if (activeLevel < levels.Count - 1)
+                        {
+                            activeLevel++;
+                            ResetState(); 
+                        }
+                        else
+                        {
+                            activeLevel = 0;
+                            ResetState();
+                        }
+                        break;
                 }
-            }
-        }
-        public void InitializeGameState() {
-            player = new Player(
-                new DynamicShape(new Vec2F(0.45f, 0.05f), new Vec2F(0.15f, 0.020f)),
-                new Image(Path.Combine("Assets", "Images", "Player.png")));
-            ball = new Ball(
-                new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
-                                new Vec2F(0.02f, 0.02f)),
-                new Image(Path.Combine("Assets", "Images", "ball.png")));
-            ball.Start();
-            level = new Level(Path.Combine("Assets", "Levels" , "Level1.txt"));
-            levels = new List<Level>();
-            string[] File = Directory.GetFiles(Path.Combine("Assets", "Levels"));
-            foreach(var i in File) {
-                levels.Add(new Level (i));
             }
         }
 
@@ -86,6 +86,43 @@ namespace Breakout {
             foreach(var i in File) {
                 levels.Add(new Level (i));
             }
+            score = new ScoreBoard(new Vec2F(0.75f, 0.6f), new Vec2F(0.4f, 0.4f));
+            System.Console.WriteLine(levels.Count);
+        }
+
+
+        public void CollideWithBlock(EntityContainer<Block> blocks)
+        {
+            blocks.Iterate(block => {
+                if (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).Collision)
+                {
+                    switch (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).CollisionDir)
+                    {
+                        case CollisionDirection.CollisionDirLeft:
+                        {
+                            ball.GetShape().Direction.X *= -1.0f;
+                            break;
+                        }
+                        case CollisionDirection.CollisionDirRight:
+                        {
+                            ball.GetShape().Direction.X *= -1.0f;
+                            break;
+                        }
+                        case CollisionDirection.CollisionDirUp:
+                        {
+                            ball.GetShape().Direction.Y *= -1.0f;
+                            break;
+                        }
+                        case CollisionDirection.CollisionDirDown:
+                        {
+                            ball.GetShape().Direction.Y *= -1.0f;
+                            break;
+                        }
+                    }
+                    block.HealthDown();
+                    score.AddPoint();
+                }
+            });
         }
     }
 }
