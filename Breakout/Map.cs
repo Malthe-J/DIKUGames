@@ -22,7 +22,7 @@ namespace Breakout{
                 for (int j = 0; j < levelStorageSplitMap[j].Length; j++){
                     x = 1.0f / (levelStorageSplitMap[j].Length - 1);
                     if (textures.ContainsKey(levelStorageSplitMap[i][j])){
-                        blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]], 1));
+                        blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                     }
                 }
                 

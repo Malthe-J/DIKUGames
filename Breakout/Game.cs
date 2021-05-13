@@ -35,6 +35,5 @@ namespace Breakout
         public void ProcessEvent(GameEvent gameevent) {
             state.ProcessEvent(gameevent);
         }
-
     }
 }

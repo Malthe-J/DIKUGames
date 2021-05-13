@@ -6,21 +6,12 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 
 namespace Breakout {
-    public class Block: Entity { 
-        int value;
-        protected int health;
-        public int Health{
-            get{return health;}
-        }
-        public Block(StationaryShape shape, IBaseImage image): base(shape,image) {
+    public class UnbreakableBlock: Block { 
+        public UnbreakableBlock(StationaryShape shape, IBaseImage image): base(shape,image) {
             health = 1;
         }
-        public virtual void HealthDown() {
-            health--;
-            if(health <= 0)
-            {
-                DeleteEntity();
-            }
+        public void HealthDown() {
+            
         }
         public bool IsBlockDead() {
             if (Health <= 0) {

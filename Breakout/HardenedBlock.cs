@@ -6,16 +6,11 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 
 namespace Breakout {
-    public class Block: Entity { 
-        int value;
-        protected int health;
-        public int Health{
-            get{return health;}
+    public class HardenedBlock: Block { 
+        public HardenedBlock(StationaryShape shape, IBaseImage image): base(shape,image) {
+            health*=2;
         }
-        public Block(StationaryShape shape, IBaseImage image): base(shape,image) {
-            health = 1;
-        }
-        public virtual void HealthDown() {
+        public void HealthDown() {
             health--;
             if(health <= 0)
             {
