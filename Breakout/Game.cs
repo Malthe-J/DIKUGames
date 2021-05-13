@@ -5,37 +5,29 @@ using DIKUArcade.GUI;
 using DIKUArcade.Entities;
 using DIKUArcade.Graphics;
 using DIKUArcade.Math;
+using Breakout.BreakoutStates;
 using DIKUArcade.Events;
 using DIKUArcade.Input;
 
 namespace Breakout
 {
     public class Game : DIKUGame {
-        private Player player;
-        private Level Levels;
+        private StateMachine state;
          
         public Game() : base(new WindowArgs {Title = "Breakout", Width = 500, Height = 500}) {
-            player = new Player(
-                new DynamicShape(new Vec2F(0.45f, 0.1f), new Vec2F(0.15f/2.0f, 0.027f/2.0f)),
-                new Image(Path.Combine("Assets", "Images", "Player.png")));
-            window.SetKeyEventHandler(KeyHandler);
-
-            Levels = new Level(Path.Combine("Assets","Levels", "Level3.txt"));
-            Level level3 = new Level(Path.Combine("Assets","Levels", "Level3.txt"));
+        state = new StateMachine(window);   
         }
         public override void Update() {
-            player.Move();
+            state.ActiveState.UpdateState();
         }
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
-            player.HandleKeyEvent(action, key);
             if (action==KeyboardAction.KeyPress && key==KeyboardKey.Escape) {
                 window.CloseWindow();
             }
 
         }
         public override void Render() {
-            player.Render();
-            Levels.render();
+            state.ActiveState.RenderState();
         }
 
     }

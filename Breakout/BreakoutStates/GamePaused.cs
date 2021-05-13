@@ -3,9 +3,9 @@ using DIKUArcade.Graphics;
 using DIKUArcade.Math;
 using DIKUArcade.Events;
 using DIKUArcade.GUI;
-using System.IO;
 using DIKUArcade.Input;
-namespace Galaga.GalagaStates {
+using System.IO;
+namespace Breakout.BreakoutStates {
     public class GamePaused : IGameState {
 
         private static GamePaused instance = null;
@@ -15,13 +15,13 @@ namespace Galaga.GalagaStates {
         private int maxMenuButtons;
         private Window window;
 
-        public GamePaused(ref Window window) {
+        public GamePaused(Window window) {
             this.window = window;
             InitializeGameState();
         }
 
-        public static GamePaused GetInstance(ref Window window) {
-            return GamePaused.instance ?? (GamePaused.instance = new GamePaused(ref window));
+        public static GamePaused GetInstance(Window window) {
+            return GamePaused.instance ?? (GamePaused.instance = new GamePaused(window));
         }
 
         public void ResetState() {
@@ -58,12 +58,12 @@ namespace Galaga.GalagaStates {
                     case KeyboardKey.Enter:
                         if (activeMenuButton == 0)
                         {
-                            GalagaBus.GetBus().RegisterEvent(new GameEvent {EventType = GameEventType.GameStateEvent, 
+                            BreakoutBus.GetBus().RegisterEvent(new GameEvent {EventType = GameEventType.GameStateEvent, 
                                                                             Message = "GameRunning", StringArg1 = "CHANGE_STATE"});
                         }
                         else if (activeMenuButton == 1)
                         {
-                            GalagaBus.GetBus().RegisterEvent(new GameEvent {EventType = GameEventType.GameStateEvent, 
+                            BreakoutBus.GetBus().RegisterEvent(new GameEvent {EventType = GameEventType.GameStateEvent, 
                                                                             Message = "MainMenu", StringArg1 = "CHANGE_STATE"});
                         }
                         break;
