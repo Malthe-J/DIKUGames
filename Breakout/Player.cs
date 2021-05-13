@@ -12,8 +12,7 @@ namespace Breakout {
 
         private float moveLeft, moveRight;
 
-        private const float MOVEMENT_SPEED = 0.01f;
-
+        private const float MOVEMENT_SPEED = 0.03f;
         public Player(DynamicShape shape, IBaseImage image) {
             entity = new Entity(shape, image);
             this.shape = shape;
@@ -31,9 +30,9 @@ namespace Breakout {
             {
                 shape.Position.X = 0.0f;     
             }
-          else if (shape.Position.X + shape.Direction.X > 0.925)
+          else if (shape.Position.X + shape.Direction.X > 1.0f - shape.Extent.X)
           {
-                shape.Position.X = 0.925f;
+                shape.Position.X = 1.0f - shape.Extent.X;
           }
           else {
                 shape.Move();

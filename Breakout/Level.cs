@@ -24,8 +24,12 @@ namespace Breakout {
             map = new Map(loader.GetMapData(), legend.GetDic());
         }
 
-          public void Render(){
+        public void Render(){
             map.Render();
-          }
+        }
+
+        public EntityContainer<Block> GetBlocks(){
+            return map.GetBlocks();
+        }
     }
 }

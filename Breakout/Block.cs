@@ -17,12 +17,20 @@ namespace Breakout {
         }
         public void HealthDown() {
             health--;
+            if(health <= 0)
+            {
+                DeleteEntity();
+            }
         }
         public bool IsBlockDead() {
             if (Health <= 0) {
                 return true;
             }
             return false;
+        }
+
+        public Shape GetShape() {
+            return Shape;
         }
     }
 }

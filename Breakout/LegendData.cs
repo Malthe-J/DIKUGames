@@ -19,6 +19,10 @@ namespace Breakout
             Console.WriteLine("-------------------LegendData-------------------");
             for(int i = 3; i < LegendSplitData.Length-1;  i++)
             {
+                if (string.IsNullOrWhiteSpace(LegendSplitData[3]))
+                {
+                    return;
+                }
                 if(textures.ContainsKey(LegendSplitData[i][0]) == false)
                 {
                     int lastIndex = LegendSplitData[i].LastIndexOf("\r");
