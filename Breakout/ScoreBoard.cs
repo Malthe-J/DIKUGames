@@ -1,3 +1,6 @@
+using DIKUArcade.Math;
+using DIKUArcade.Graphics;
+
 namespace Breakout
 {
     class ScoreBoard

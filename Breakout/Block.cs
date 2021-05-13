@@ -19,7 +19,7 @@ namespace Breakout {
             health--;
             if(health <= 0)
             {
-                ScoreBoard.AddPoint();
+                //ScoreBoard.AddPoint();
                 DeleteEntity();
             }
         }
