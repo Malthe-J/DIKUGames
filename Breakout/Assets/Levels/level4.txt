@@ -26,17 +26,17 @@ yyyyaaaayyyy
 Map/
 
 Meta:
-Name: LEVEL 3
+Name: LEVEL 4
 Time: 180
 PowerUp: %
 Unbreakable: X
-Hardened: v
+Hardened: y
 Meta/
 
 Legend:
 a) red-block.png
 b) orange-block.png
-v) darkgreen-block.png
+y) darkgreen-block.png
 %) green-block.png
 X) grey-block.png
 p) purple-block.png
