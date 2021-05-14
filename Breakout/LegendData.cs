@@ -16,7 +16,6 @@ namespace Breakout
 
         public void LoadData(string[] LegendSplitData)
         {
-            Console.WriteLine("-------------------LegendData-------------------");
             for(int i = 3; i < LegendSplitData.Length-1;  i++)
             {
                 if (string.IsNullOrWhiteSpace(LegendSplitData[3]))
@@ -28,11 +27,6 @@ namespace Breakout
                     int lastIndex = LegendSplitData[i].LastIndexOf("\r");
                     string temp = LegendSplitData[i].Substring(3, lastIndex - 3);
                     textures.Add(LegendSplitData[i][0], new Image(Path.Combine("Assets", "Images", temp)));
-                }
-
-                if(textures.ContainsKey(LegendSplitData[i][0]))
-                {
-                    Console.WriteLine(LegendSplitData[i][0] + " is in Dictionary");
                 }
             }
         }
