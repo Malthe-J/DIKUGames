@@ -10,7 +10,7 @@ namespace Breakout {
         public UnbreakableBlock(StationaryShape shape, IBaseImage image): base(shape,image) {
             health = 1;
         }
-        public void HealthDown() {
+        public override void HealthDown() {
             
         }
         public bool IsBlockDead() {

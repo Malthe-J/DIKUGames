@@ -14,15 +14,13 @@ namespace Breakout.BreakoutStates {
         private Text[] menuButtons;
         private int activeMenuButton;
         private int maxMenuButtons;
-        private Window window;
 
-        public GamePaused(Window window) {
-            this.window = window;
+        public GamePaused() {
             InitializeGameState();
         }
 
-        public static GamePaused GetInstance(Window window) {
-            return GamePaused.instance ?? (GamePaused.instance = new GamePaused(window));
+        public static GamePaused GetInstance() {
+            return GamePaused.instance ?? (GamePaused.instance = new GamePaused());
         }
 
         public void ResetState() {

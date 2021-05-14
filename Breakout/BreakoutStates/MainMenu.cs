@@ -16,7 +16,7 @@ namespace Breakout.BreakoutStates {
         private int maxMenuButtons;
         private Window window;
 
-        public MainMenu (Window window) {
+        public MainMenu(Window window) {
             this.window = window;
             InitializeGameState();
         }

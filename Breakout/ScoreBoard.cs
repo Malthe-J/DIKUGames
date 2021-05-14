@@ -3,10 +3,14 @@ using DIKUArcade.Graphics;
 
 namespace Breakout
 {
-    class ScoreBoard
+    public class ScoreBoard
     {
         private int score;
         private Text display;
+
+        public int Score{
+            get{return score;}
+        }
 
         public ScoreBoard(Vec2F position, Vec2F extent) {
             score = 0;

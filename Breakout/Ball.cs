@@ -8,13 +8,11 @@ using DIKUArcade.Input;
 using DIKUArcade.Physics;
 
 namespace Breakout{
-    public class Ball{
+    public class Ball : Entity{
 
         private DynamicShape shape;
-        private Entity entity;
-        public Ball(DynamicShape shape, IBaseImage image)
+        public Ball(DynamicShape shape, IBaseImage image) : base(shape, image)
         {
-            entity = new Entity(shape, image);
             this.shape = shape;
         }
 
@@ -39,13 +37,13 @@ namespace Breakout{
             }
 
             if (shape.Position.Y <= 0.0f)
-                entity.DeleteEntity();
+                DeleteEntity();
             shape.Move();
         }
 
         public void Render()
         {
-            entity.RenderEntity();
+            RenderEntity();
         }
 
         public void CollideWithPlayer(Player player)

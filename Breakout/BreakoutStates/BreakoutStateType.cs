@@ -7,7 +7,7 @@ namespace Breakout.BreakoutStates{
         MainMenu
     }
     public class StateTransformer{
-        public static GameStateType TransFormStringToState(string state){
+        public static GameStateType TransformStringToState(string state){
             switch (state){
                 case "GameRunning":
                     return GameStateType.GameRunning;

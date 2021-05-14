@@ -33,7 +33,7 @@ namespace BreakoutTests
         public void testMoveOutOfWindowRightSide(){
             Casper.GetShape().Position.X = 1.2f;
             Casper.Move();
-            Assert.AreEqual(Casper.GetShape().Position.X, 0.925f);
+            Assert.AreEqual(Casper.GetShape().Position.X, 1.0f - Casper.GetShape().Extent.X);
         }
 
         [Test]

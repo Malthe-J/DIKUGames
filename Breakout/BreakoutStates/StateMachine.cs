@@ -14,18 +14,18 @@ namespace Breakout.BreakoutStates {
             BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
             ActiveState = MainMenu.GetInstance(window);
-            this.window = window;
             window.SetKeyEventHandler(KeyHandler);
         }
 
         private void SwitchState(GameStateType stateType) {
+            
             switch (stateType) {
                 case GameStateType.GameRunning:
                     ActiveState = GameRunning.GetInstance(prevType);
                     prevType = BreakoutStates.GameStateType.GameRunning;
                     break;
                 case GameStateType.GamePaused:
-                    ActiveState= GamePaused.GetInstance(window);
+                    ActiveState= GamePaused.GetInstance();
                     break;
                 case GameStateType.MainMenu:
                     ActiveState= MainMenu.GetInstance(window);
@@ -36,7 +36,7 @@ namespace Breakout.BreakoutStates {
         public void ProcessEvent(GameEvent gameEvent) {
             switch (gameEvent.StringArg1) {
                 case "CHANGE_STATE":
-                    SwitchState(StateTransformer.TransFormStringToState(gameEvent.Message));
+                    SwitchState(StateTransformer.TransformStringToState(gameEvent.Message));
                     break;
             } 
         }
