@@ -1,19 +1,19 @@
 Map:
+pppppppppppp
+------------
+-%--------%-
+--%------%--
+---%----%---
+----%--%----
 ------------
 ------------
-------------
-------------
-------------
-------------
-------------
-------------
-------------
-------------
-------------
-------------
-------------
-------------
-------------
+---X----X---
+aaaX----Xaaa
+-aaX----Xaa-
+--aX----Xa--
+-aaX-%%-Xaa-
+aaaX----Xaaa
+yyyyaaaayyyy
 ------------
 ------------
 ------------
@@ -26,9 +26,18 @@ Map:
 Map/
 
 Meta:
-Name: LEVEL 4
+Name: LEVEL 3
+Time: 180
+PowerUp: %
+Unbreakable: X
+Hardened: v
 Meta/
 
 Legend:
-
+a) red-block.png
+b) orange-block.png
+v) darkgreen-block.png
+%) green-block.png
+X) grey-block.png
+p) purple-block.png
 Legend/
