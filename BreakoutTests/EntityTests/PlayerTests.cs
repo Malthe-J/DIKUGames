@@ -52,5 +52,10 @@ namespace BreakoutTests
             Casper.Move();
             Assert.Less(PrevXPosition, Casper.GetShape().Position.X);
         }
+        [Test]
+        public void TestLoseHealth(){
+           Casper.HealthDown();
+            Assert.AreEqual(Casper.Health, 2);
+        }
     }
 }
