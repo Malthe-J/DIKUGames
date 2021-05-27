@@ -19,6 +19,9 @@ namespace Breakout {
         private ScoreBoard score;
 
         private int activeLevel = 0;
+        private int health = 3;
+        private Text display;
+        private EntityContainer<Ball> ballContainer;
 
         public GameRunning(){
             ResetState();
@@ -33,9 +36,11 @@ namespace Breakout {
 
         public void GameLoop() {
             player.Move();
-            ball.Move();
-            ball.CollideWithPlayer(player);
+            PlayerHealthDown();
+            ballContainer.Iterate(ball => {ball.Move();});
+            ballContainer.Iterate(ball => {ball.CollideWithPlayer(player);});
             CollideWithBlock(levels[activeLevel].GetBlocks());
+            ShouldGameEnd();
         }
         public void UpdateState(){
             GameLoop();
@@ -43,9 +48,32 @@ namespace Breakout {
         public void RenderState() {
             levels[activeLevel].Render();
             player.Render();
-            ball.Render();
+            ballContainer.RenderEntities();
             score.RenderScore();
+            display.RenderText();
         }
+
+        public void PlayerHealthDown(){
+            if (ballContainer.CountEntities() == 0){
+                health--;
+                display.SetText("HP: " + health.ToString());
+                ballContainer.AddEntity(new Ball(
+                new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
+                                new Vec2F(0.03f, 0.03f)),
+                new Image(Path.Combine("Assets", "Images", "ball.png"))));
+
+            ballContainer.Iterate(ball => {ball.Start();});
+            }
+        }
+        public void ShouldGameEnd(){
+            if(health == 0){
+                BreakoutBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
+                                                                Message = "MainMenu", StringArg1 = "CHANGE_STATE"});
+            }
+        }
+
+
+
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             player.HandleKeyEvent(action, key);
             if (action == KeyboardAction.KeyPress) {
@@ -79,7 +107,7 @@ namespace Breakout {
                 new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
                                 new Vec2F(0.03f, 0.03f)),
                 new Image(Path.Combine("Assets", "Images", "ball.png")));
-            ball.Start();
+
             level = new Level(Path.Combine("Assets", "Levels" , "Level1.txt"));
             levels = new List<Level>();
             string[] File = Directory.GetFiles(Path.Combine("Assets", "Levels"));
@@ -87,14 +115,28 @@ namespace Breakout {
                 levels.Add(new Level (i));
             }
             score = new ScoreBoard(new Vec2F(0.75f, 0.6f), new Vec2F(0.4f, 0.4f));
-            System.Console.WriteLine(levels.Count);
+
+            //Display health
+            display = new Text("HP: " + health.ToString(), new Vec2F(0.75f, 0.5f), new Vec2F(0.4f, 0.4f));
+            display.SetColor(System.Drawing.Color.HotPink);
+            display.SetFontSize(32);
+
+            //Ball container
+            ballContainer = new EntityContainer<Ball>();
+            ballContainer.AddEntity(new Ball(
+                new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
+                                new Vec2F(0.03f, 0.03f)),
+                new Image(Path.Combine("Assets", "Images", "ball.png"))));
+
+            ballContainer.Iterate(ball => {ball.Start();});
         }
+
 
 
         public void CollideWithBlock(EntityContainer<Block> blocks)
         {
             blocks.Iterate(block => {
-                if (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).Collision)
+                ballContainer.Iterate(ball => {if (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).Collision)
                 {
                     switch (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).CollisionDir)
                     {
@@ -121,7 +163,8 @@ namespace Breakout {
                     }
                     block.HealthDown();
                     score.AddPoint();
-                }
+                }});
+                
             });
         }
     }

@@ -11,13 +11,21 @@ namespace Breakout {
         private DynamicShape shape;
 
         private float moveLeft, moveRight;
+        private Text displayHealth;
 
+        private int health;
+        
         private const float MOVEMENT_SPEED = 0.03f;
         public Player(DynamicShape shape, IBaseImage image) {
             entity = new Entity(shape, image);
             this.shape = shape;
             moveLeft = 0.0f; 
             moveRight = 0.0f;
+            health = 3;
+            
+        }
+        public void HealthDown() {
+            health--;
         }
 
         public void Render() {
@@ -111,5 +119,6 @@ namespace Breakout {
         public Shape GetShape(){
             return shape;
         }
+        
     }
 }
