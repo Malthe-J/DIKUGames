@@ -18,8 +18,8 @@ namespace Breakout{
 
         public void Start()
         {
-            shape.Direction.X = -0.01f;
-            shape.Direction.Y = 0.01f;
+            shape.Direction.X = -0.005f;
+            shape.Direction.Y = 0.005f;
         }
 
         public void Move(){

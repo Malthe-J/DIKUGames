@@ -14,6 +14,9 @@ namespace Breakout {
         private Text displayHealth;
 
         private int health;
+        public int Health{
+            get{return health;}
+        }
         
         private const float MOVEMENT_SPEED = 0.03f;
         public Player(DynamicShape shape, IBaseImage image) {

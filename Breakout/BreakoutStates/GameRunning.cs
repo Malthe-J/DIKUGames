@@ -8,6 +8,7 @@ using DIKUArcade.Events;
 using DIKUArcade.Physics;
 using DIKUArcade.State;
 using DIKUArcade.GUI;
+using DIKUArcade.Timers;
 
 namespace Breakout {
     public class GameRunning : IGameState {
@@ -17,10 +18,14 @@ namespace Breakout {
         private List<Level> levels;
         private Ball ball;
         private ScoreBoard score;
+        private StaticTimer timer;
 
         private int activeLevel = 0;
+        private long startTime; 
         private int health = 3;
-        private Text display;
+        private int time;
+        private Text displayHealth;
+        private Text displayTimer;
         private EntityContainer<Ball> ballContainer;
 
         public GameRunning(){
@@ -40,6 +45,11 @@ namespace Breakout {
             ballContainer.Iterate(ball => {ball.Move();});
             ballContainer.Iterate(ball => {ball.CollideWithPlayer(player);});
             CollideWithBlock(levels[activeLevel].GetBlocks());
+            if (startTime + 1000 < StaticTimer.GetElapsedMilliseconds()) {
+                time -= 1; 
+                displayTimer.SetText("Time: " + time.ToString());
+                startTime = StaticTimer.GetElapsedMilliseconds();
+            }
             ShouldGameEnd();
         }
         public void UpdateState(){
@@ -50,13 +60,17 @@ namespace Breakout {
             player.Render();
             ballContainer.RenderEntities();
             score.RenderScore();
-            display.RenderText();
+            displayHealth.RenderText();
+            if (levels[activeLevel].MetaData.Time != 0) {
+                displayTimer.RenderText();
+            }
+
         }
 
         public void PlayerHealthDown(){
             if (ballContainer.CountEntities() == 0){
                 health--;
-                display.SetText("HP: " + health.ToString());
+                displayHealth.SetText("HP: " + health.ToString());
                 ballContainer.AddEntity(new Ball(
                 new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
                                 new Vec2F(0.03f, 0.03f)),
@@ -66,9 +80,9 @@ namespace Breakout {
             }
         }
         public void ShouldGameEnd(){
-            if(health == 0){
+            if(health == 0 || (levels[activeLevel].MetaData.Time != 0 &&  time < 0)){
                 BreakoutBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
-                                                                Message = "MainMenu", StringArg1 = "CHANGE_STATE"});
+                                                                Message = "GameLost", StringArg1 = "CHANGE_STATE"});
             }
         }
 
@@ -115,11 +129,12 @@ namespace Breakout {
                 levels.Add(new Level (i));
             }
             score = new ScoreBoard(new Vec2F(0.75f, 0.6f), new Vec2F(0.4f, 0.4f));
+            timer = new StaticTimer();
 
             //Display health
-            display = new Text("HP: " + health.ToString(), new Vec2F(0.75f, 0.5f), new Vec2F(0.4f, 0.4f));
-            display.SetColor(System.Drawing.Color.HotPink);
-            display.SetFontSize(32);
+            displayHealth = new Text("HP: " + health.ToString(), new Vec2F(0.75f, 0.5f), new Vec2F(0.4f, 0.4f));
+            displayHealth.SetColor(System.Drawing.Color.HotPink);
+
 
             //Ball container
             ballContainer = new EntityContainer<Ball>();
@@ -129,6 +144,11 @@ namespace Breakout {
                 new Image(Path.Combine("Assets", "Images", "ball.png"))));
 
             ballContainer.Iterate(ball => {ball.Start();});
+            time = levels[activeLevel].MetaData.Time;
+            startTime = (int)StaticTimer.GetElapsedMilliseconds();
+            //Display timer
+            displayTimer = new Text("Time: " + time.ToString(), new Vec2F(0.25f, 0.5f), new Vec2F(0.4f, 0.4f));
+            displayTimer.SetColor(System.Drawing.Color.HotPink);
         }
 
 

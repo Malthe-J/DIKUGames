@@ -27,7 +27,7 @@ Map/
 
 Meta:
 Name: LEVEL 1
-Time: 300
+Time: 3
 PowerUp: 2
 Meta/
 

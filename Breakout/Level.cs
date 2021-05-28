@@ -6,6 +6,7 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 using System.IO;
 using System.Collections.Generic;
+using DIKUArcade.Timers;
 
 namespace Breakout {
     public class Level{
@@ -13,6 +14,7 @@ namespace Breakout {
         private LegendData legend;
         private Map map;
         private MetaData metaData;
+
 
         public MetaData MetaData{
             get{return metaData;}

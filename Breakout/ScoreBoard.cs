@@ -16,7 +16,6 @@ namespace Breakout
             score = 0;
             display = new Text("Score: " + score.ToString(), position, extent);
             display.SetColor(System.Drawing.Color.HotPink);
-            display.SetFontSize(40);
         }
 
         public void AddPoint()

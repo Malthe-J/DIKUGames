@@ -31,6 +31,10 @@ namespace Breakout.BreakoutStates {
                     ActiveState= MainMenu.GetInstance(window);
                     prevType = BreakoutStates.GameStateType.MainMenu;
                     break;
+                case GameStateType.GameLost:
+                    ActiveState = GameLost.GetInstance(window);
+                    prevType = BreakoutStates.GameStateType.GameLost;
+                    break;
              }
         }
         public void ProcessEvent(GameEvent gameEvent) {
