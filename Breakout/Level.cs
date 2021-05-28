@@ -19,11 +19,12 @@ namespace Breakout {
         public MetaData MetaData{
             get{return metaData;}
         }
+
         public Level(string FilePath){
             loader = new Loader(FilePath);
             metaData = new MetaData(loader.GetMetaData());
             legend = new LegendData(loader.GetLegendData());
-            map = new Map(loader.GetMapData(), legend.GetDic());
+            map = new Map(loader.GetMapData(), legend.GetDic(), metaData);
         }
 
         public void Render(){
@@ -32,6 +33,9 @@ namespace Breakout {
 
         public EntityContainer<Block> GetBlocks(){
             return map.GetBlocks();
+        }
+        public EntityContainer<Block> GetDestroyableBlocks(){
+            return map.GetDestroyableBlocks();
         }
     }
 }

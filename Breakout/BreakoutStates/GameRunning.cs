@@ -9,9 +9,10 @@ using DIKUArcade.Physics;
 using DIKUArcade.State;
 using DIKUArcade.GUI;
 using DIKUArcade.Timers;
+using Breakout.PowerUp;
 
 namespace Breakout {
-    public class GameRunning : IGameState {
+    public class GameRunning : IGameState, IGameEventProcessor {
         private static GameRunning instance = null;
         private Player player;
         private Level level;
@@ -29,6 +30,7 @@ namespace Breakout {
         private EntityContainer<Ball> ballContainer;
 
         public GameRunning(){
+            //BreakoutBus.GetBus().Subscribe(GameEventType.TimedEvent, this);
             ResetState();
         }
         public static GameRunning GetInstance(BreakoutStates.GameStateType state) {
@@ -44,6 +46,8 @@ namespace Breakout {
             PlayerHealthDown();
             ballContainer.Iterate(ball => {ball.Move();});
             ballContainer.Iterate(ball => {ball.CollideWithPlayer(player);});
+            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.Update();});
+            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.CollideWithPlayer(player);});
             CollideWithBlock(levels[activeLevel].GetBlocks());
             if (startTime + 1000 < StaticTimer.GetElapsedMilliseconds()) {
                 time -= 1; 
@@ -51,6 +55,7 @@ namespace Breakout {
                 startTime = StaticTimer.GetElapsedMilliseconds();
             }
             ShouldGameEnd();
+            ChangeLevel();
         }
         public void UpdateState(){
             GameLoop();
@@ -65,6 +70,7 @@ namespace Breakout {
                 displayTimer.RenderText();
             }
 
+            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.Render();});
         }
 
         public void PlayerHealthDown(){
@@ -97,17 +103,24 @@ namespace Breakout {
                                                                 Message = "GamePaused", StringArg1 = "CHANGE_STATE"});
                         break;
                     case KeyboardKey.F:
-                        if (activeLevel < levels.Count - 1)
-                        {
-                            activeLevel++;
-                            ResetState(); 
-                        }
-                        else
-                        {
-                            activeLevel = 0;
-                            ResetState();
-                        }
+                        //levels[activeLevel].GetBlocks().ClearContainer();
+                        levels[activeLevel].GetDestroyableBlocks().ClearContainer();
                         break;
+                }
+            }
+        }
+
+        private void ChangeLevel(){
+            if (levels[activeLevel].GetDestroyableBlocks().CountEntities() == 0) {
+                 if (activeLevel == levels.Count - 1)
+                {
+                    BreakoutBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
+                                                                Message = "GameWon", StringArg1 = "CHANGE_STATE"});
+                }
+                if (activeLevel < levels.Count - 1)
+                {
+                    activeLevel++;
+                    ResetState(); 
                 }
             }
         }
@@ -186,6 +199,34 @@ namespace Breakout {
                 }});
                 
             });
+        }
+
+        public void PowerUpCollideWithPlayer(){
+            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {
+                if(CollisionDetection.Aabb(powerUp.GetShape(), player.GetShape()).Collision) {
+                    powerUp.Delete();
+                    System.Console.WriteLine("TRIPLE FUCK!!!!");
+                }
+            });
+        }
+
+        public void ProcessEvent(GameEvent gameEvent) {
+            switch (gameEvent.StringArg1) {
+                case "EFFECT":
+                    switch(gameEvent.Message){
+                        case "ExtraLife":
+                            health++;
+                            break;
+
+                        case "ExtraBall":
+                            ballContainer.AddEntity(new Ball(
+                                                        new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
+                                                            new Vec2F(0.03f, 0.03f)),
+                                                    new Image(Path.Combine("Assets", "Images", "ball.png"))));
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }

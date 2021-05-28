@@ -16,8 +16,8 @@ namespace Breakout
         private StateMachine state;
          
         public Game() : base(new WindowArgs {Title = "Breakout", Width = 500, Height = 500}) {   
-        BreakoutBus.GetBus().InitializeEventBus(new List<GameEventType> {GameEventType.GameStateEvent, GameEventType.InputEvent});
-        state = new StateMachine(window);
+            BreakoutBus.GetBus().InitializeEventBus(new List<GameEventType> {GameEventType.GameStateEvent, GameEventType.InputEvent});
+            state = new StateMachine(window);
         }
         public override void Update() {
             BreakoutBus.GetBus().ProcessEvents();

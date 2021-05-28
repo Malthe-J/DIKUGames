@@ -9,10 +9,12 @@ namespace Breakout {
     public class Block: Entity { 
         int value;
         protected int health;
+        protected string filePath;
         public int Health{
             get{return health;}
         }
-        public Block(StationaryShape shape, IBaseImage image): base(shape,image) {
+        public Block(StationaryShape shape, string filepath): base(shape,new Image(filepath)) {
+            filepath = filePath;
             health = 1;
         }
         public virtual void HealthDown() {

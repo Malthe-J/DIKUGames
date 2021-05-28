@@ -13,7 +13,9 @@ namespace Breakout.BreakoutStates {
         public StateMachine(Window window) {
             BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
+            BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, GameRunning.GetInstance(BreakoutStates.GameStateType.MainMenu));
             ActiveState = MainMenu.GetInstance(window);
+            this.window = window;
             window.SetKeyEventHandler(KeyHandler);
         }
 
@@ -33,7 +35,9 @@ namespace Breakout.BreakoutStates {
                     break;
                 case GameStateType.GameLost:
                     ActiveState = GameLost.GetInstance(window);
-                    prevType = BreakoutStates.GameStateType.GameLost;
+                    break;
+                case GameStateType.GameWon:
+                    ActiveState = GameWon.GetInstance(window);
                     break;
              }
         }

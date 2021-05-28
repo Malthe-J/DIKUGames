@@ -7,7 +7,7 @@ using DIKUArcade.Input;
 
 namespace Breakout {
     public class UnbreakableBlock: Block { 
-        public UnbreakableBlock(StationaryShape shape, IBaseImage image): base(shape,image) {
+        public UnbreakableBlock(StationaryShape shape, string filePath): base(shape,filePath) {
             health = 1;
         }
         public override void HealthDown() {

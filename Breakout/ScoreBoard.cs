@@ -5,7 +5,7 @@ namespace Breakout
 {
     public class ScoreBoard
     {
-        private int score;
+        private static int score = 0;
         private Text display;
 
         public int Score{
@@ -13,7 +13,6 @@ namespace Breakout
         }
 
         public ScoreBoard(Vec2F position, Vec2F extent) {
-            score = 0;
             display = new Text("Score: " + score.ToString(), position, extent);
             display.SetColor(System.Drawing.Color.HotPink);
         }
@@ -24,7 +23,12 @@ namespace Breakout
             display.SetText("Score: " + score.ToString());
         }
 
+        public static void AddPoint(int point){
+            score += point;
+        }
+
         public void RenderScore() {
+            display.SetText("Score: " + score.ToString());
             display.RenderText();
         }
     }

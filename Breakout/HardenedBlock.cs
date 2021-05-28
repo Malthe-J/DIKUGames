@@ -7,7 +7,7 @@ using DIKUArcade.Input;
 
 namespace Breakout {
     public class HardenedBlock: Block { 
-        public HardenedBlock(StationaryShape shape, IBaseImage image): base(shape,image) {
+        public HardenedBlock(StationaryShape shape, string filepath): base(shape,filepath) {
             health*=2;
         }
         public void HealthDown() {
