@@ -46,9 +46,7 @@ namespace Breakout.PowerUp{
         }
 
         public void CollideWithPlayer(Player player) {
-            if (Shape.Position == player.GetShape().Position)
-                Console.WriteLine("Hej");
-            if (CollisionDetection.Aabb(Shape.AsDynamicShape(), player.GetShape()).Collision)
+            if (CollisionDetection.Aabb((Shape.AsDynamicShape()), player.GetShape()).Collision)
             {
                 Console.WriteLine("Hej");
                 AddEffect();
