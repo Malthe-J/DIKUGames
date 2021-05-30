@@ -48,7 +48,7 @@ namespace Breakout {
             ballContainer.Iterate(ball => {ball.CollideWithPlayer(player);});
             PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.Update();});
             PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.CollideWithPlayer(player);});
-            CollideWithBlock(levels[activeLevel].GetBlocks());
+            CollideWithBlock(levels[activeLevel].GetDestroyableBlocks(), levels[activeLevel].GetUndestroyableBlocks());
             if (startTime + 1000 < StaticTimer.GetElapsedMilliseconds()) {
                 time -= 1; 
                 displayTimer.SetText("Time: " + time.ToString());
@@ -82,7 +82,7 @@ namespace Breakout {
                                 new Vec2F(0.03f, 0.03f)),
                 new Image(Path.Combine("Assets", "Images", "ball.png"))));
 
-            ballContainer.Iterate(ball => {ball.Start();});
+                ballContainer.Iterate(ball => {ball.Start();});
             }
         }
         public void ShouldGameEnd(){
@@ -166,7 +166,7 @@ namespace Breakout {
 
 
 
-        public void CollideWithBlock(EntityContainer<Block> blocks)
+        public void CollideWithBlock(EntityContainer<Block> blocks, EntityContainer<Block> unbreakble)
         {
             blocks.Iterate(block => {
                 ballContainer.Iterate(ball => {if (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).Collision)
@@ -197,7 +197,35 @@ namespace Breakout {
                     block.HealthDown();
                     score.AddPoint();
                 }});
-                
+            });
+
+            unbreakble.Iterate(block => {
+                ballContainer.Iterate(ball => {if (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).Collision)
+                {
+                    switch (CollisionDetection.Aabb(ball.GetShape(), block.GetShape()).CollisionDir)
+                    {
+                        case CollisionDirection.CollisionDirLeft:
+                        {
+                            ball.GetShape().Direction.X *= -1.0f;
+                            break;
+                        }
+                        case CollisionDirection.CollisionDirRight:
+                        {
+                            ball.GetShape().Direction.X *= -1.0f;
+                            break;
+                        }
+                        case CollisionDirection.CollisionDirUp:
+                        {
+                            ball.GetShape().Direction.Y *= -1.0f;
+                            break;
+                        }
+                        case CollisionDirection.CollisionDirDown:
+                        {
+                            ball.GetShape().Direction.Y *= -1.0f;
+                            break;
+                        }
+                    }
+                }});
             });
         }
 

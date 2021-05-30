@@ -19,9 +19,9 @@ namespace Breakout {
         }
         public virtual void HealthDown() {
             health--;
+    
             if(health <= 0)
             {
-                //ScoreBoard.AddPoint();
                 DeleteEntity();
             }
         }

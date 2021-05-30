@@ -31,8 +31,8 @@ namespace Breakout {
             map.Render();
         }
 
-        public EntityContainer<Block> GetBlocks(){
-            return map.GetBlocks();
+        public EntityContainer<Block> GetUndestroyableBlocks(){
+            return map.GetUndestroyableBlocks();
         }
         public EntityContainer<Block> GetDestroyableBlocks(){
             return map.GetDestroyableBlocks();

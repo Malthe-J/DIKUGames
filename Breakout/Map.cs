@@ -10,10 +10,10 @@ using System.Collections.Generic;
 
 namespace Breakout{
     public class Map{
-        private EntityContainer<Block> blocks;
+        private EntityContainer<Block> Undestroyableblocks;
         private EntityContainer<Block> Destroyableblocks;
         public Map(String[] levelStorageSplitMap, Dictionary<char, string> textures, MetaData data){
-            blocks = new EntityContainer<Block>();
+            Undestroyableblocks = new EntityContainer<Block>();
             Destroyableblocks = new EntityContainer<Block>();
             float x = 0.0f;
             float yCoord = 1.0f / (levelStorageSplitMap.Length-2);
@@ -25,18 +25,15 @@ namespace Breakout{
                     x = 1.0f / (levelStorageSplitMap[j].Length - 1);
                     if (textures.ContainsKey(levelStorageSplitMap[i][j])){
                         if (data.PowerUp == levelStorageSplitMap[i][j]){
-                            blocks.AddEntity(new PowerUp.PowerUpBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                             Destroyableblocks.AddEntity(new PowerUp.PowerUpBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                         }
                         else if (data.Hardened == levelStorageSplitMap[i][j]){
-                            blocks.AddEntity(new HardenedBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                             Destroyableblocks.AddEntity(new HardenedBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                         }
                         else if (data.Unbreakable == levelStorageSplitMap[i][j]){
-                            blocks.AddEntity(new UnbreakableBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
+                            Undestroyableblocks.AddEntity(new UnbreakableBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                         }
                         else{
-                            blocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                             Destroyableblocks.AddEntity(new Block(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
                         }
                     }
@@ -48,11 +45,12 @@ namespace Breakout{
 
         public void Render()
         {
-            blocks.RenderEntities();
+            Undestroyableblocks.RenderEntities();
+            Destroyableblocks.RenderEntities();
         }
 
-        public EntityContainer<Block> GetBlocks() {
-            return blocks;
+        public EntityContainer<Block> GetUndestroyableBlocks() {
+            return Undestroyableblocks;
         }
 
         public EntityContainer<Block> GetDestroyableBlocks() {

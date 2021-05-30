@@ -14,8 +14,8 @@ namespace BreakoutTests.EntityTests
         [SetUp]
         public void Setup() {
             Window.CreateOpenGLContext();
-            BlockTest = new Block(new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.05f, 0.05f)), new Image( 
-                "Assets\\Images\\BulletRed2.png"));
+            BlockTest = new Block(new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.05f, 0.05f)), 
+                "Assets\\Images\\BulletRed2.png");
         }
 
         [Test]

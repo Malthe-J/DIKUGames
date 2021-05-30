@@ -16,10 +16,10 @@ namespace BreakoutTests.EntityTests
         [SetUp]
         public void Setup() {
             Window.CreateOpenGLContext();
-            HardenedBlock = new HardenedBlock(new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.05f, 0.05f)), new Image( 
-                "Assets\\Images\\BulletRed2.png"));
-            UnbreakableBlock = new UnbreakableBlock(new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.05f, 0.05f)), new Image( 
-                "Assets\\Images\\BulletRed2.png"));
+            HardenedBlock = new HardenedBlock(new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.05f, 0.05f)),
+                "Assets\\Images\\BulletRed2.png");
+            UnbreakableBlock = new UnbreakableBlock(new StationaryShape(new Vec2F(0.0f, 0.0f), new Vec2F(0.05f, 0.05f)),
+                "Assets\\Images\\BulletRed2.png");
         }
 
         [Test]
