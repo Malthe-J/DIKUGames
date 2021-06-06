@@ -23,7 +23,7 @@ namespace Breakout {
 
         private int activeLevel = 0;
         private long startTime; 
-        private int health = 3;
+        private int health;
         private int time;
         private Text displayHealth;
         private Text displayTimer;
@@ -31,6 +31,8 @@ namespace Breakout {
 
         public GameRunning(){
             //BreakoutBus.GetBus().Subscribe(GameEventType.TimedEvent, this);
+            //BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
+            health = 3;
             ResetState();
         }
         public static GameRunning GetInstance(BreakoutStates.GameStateType state) {
@@ -41,13 +43,18 @@ namespace Breakout {
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
 
+        public void AddHealth() {
+            health++;
+            displayHealth.SetText("HP: " + health.ToString());
+        }
+
         public void GameLoop() {
             player.Move();
             PlayerHealthDown();
             ballContainer.Iterate(ball => {ball.Move();});
             ballContainer.Iterate(ball => {ball.CollideWithPlayer(player);});
-            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.Update();});
-            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.CollideWithPlayer(player);});
+            levels[activeLevel].GetPowerUps().Iterate(powerUp => {powerUp.Update();});
+            PowerUpCollideWithPlayer();
             CollideWithBlock(levels[activeLevel].GetDestroyableBlocks(), levels[activeLevel].GetUndestroyableBlocks());
             if (startTime + 1000 < StaticTimer.GetElapsedMilliseconds()) {
                 time -= 1; 
@@ -65,12 +72,13 @@ namespace Breakout {
             player.Render();
             ballContainer.RenderEntities();
             score.RenderScore();
+            displayHealth.SetText("HP: " + health.ToString());
             displayHealth.RenderText();
             if (levels[activeLevel].MetaData.Time != 0) {
                 displayTimer.RenderText();
             }
 
-            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {powerUp.Render();});
+            levels[activeLevel].GetPowerUps().Iterate(powerUp => {powerUp.Render();});
         }
 
         public void PlayerHealthDown(){
@@ -103,7 +111,6 @@ namespace Breakout {
                                                                 Message = "GamePaused", StringArg1 = "CHANGE_STATE"});
                         break;
                     case KeyboardKey.F:
-                        //levels[activeLevel].GetBlocks().ClearContainer();
                         levels[activeLevel].GetDestroyableBlocks().ClearContainer();
                         break;
                 }
@@ -162,6 +169,7 @@ namespace Breakout {
             //Display timer
             displayTimer = new Text("Time: " + time.ToString(), new Vec2F(0.25f, 0.5f), new Vec2F(0.4f, 0.4f));
             displayTimer.SetColor(System.Drawing.Color.HotPink);
+            System.Console.WriteLine(levels[activeLevel].GetPowerUps().CountEntities());
         }
 
 
@@ -230,9 +238,12 @@ namespace Breakout {
         }
 
         public void PowerUpCollideWithPlayer(){
-            PowerUp.PowerUp.PowerUpContainer.Iterate(powerUp => {
-                if(CollisionDetection.Aabb(powerUp.GetShape(), player.GetShape()).Collision) {
+            levels[activeLevel].GetPowerUps().Iterate(powerUp => {
+                if(CollisionDetection.Aabb(powerUp.GetDynamicShape(), player.GetShape()).Collision) 
+                {
+                    System.Console.WriteLine("Hej");
                     powerUp.Delete();
+                    powerUp.AddEffect();
                     System.Console.WriteLine("TRIPLE FUCK!!!!");
                 }
             });
@@ -243,14 +254,7 @@ namespace Breakout {
                 case "EFFECT":
                     switch(gameEvent.Message){
                         case "ExtraLife":
-                            health++;
-                            break;
-
-                        case "ExtraBall":
-                            ballContainer.AddEntity(new Ball(
-                                                        new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
-                                                            new Vec2F(0.03f, 0.03f)),
-                                                    new Image(Path.Combine("Assets", "Images", "ball.png"))));
+                            AddHealth();
                             break;
                     }
                     break;

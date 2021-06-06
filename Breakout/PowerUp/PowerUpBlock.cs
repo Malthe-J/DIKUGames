@@ -8,7 +8,7 @@ namespace Breakout.PowerUp{
     public class PowerUpBlock : Block{
         private PowerUp powerUp;
         public PowerUpBlock(StationaryShape shape, string filepath) : base(shape, filepath){
-           powerUp = new PowerUp(new DynamicShape(shape.Position, new Vec2F(0.06f, 0.06f)), Path.Combine("Assets", "Images", "LifePickUp.png")); 
+           powerUp = new ExtraLife(new DynamicShape(shape.Position, new Vec2F(0.06f, 0.06f))); 
         }
 
         public override void HealthDown()
@@ -16,6 +16,10 @@ namespace Breakout.PowerUp{
             base.HealthDown();
             if (Health <= 0)
                 powerUp.ShouldShow();
+        }
+
+        public PowerUp GetPowerUp(){
+            return powerUp;
         }
     }
 }

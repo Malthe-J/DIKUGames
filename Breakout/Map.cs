@@ -6,15 +6,17 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 using System.IO;
 using System.Collections.Generic;
-
+using Breakout.PowerUp;
 
 namespace Breakout{
     public class Map{
         private EntityContainer<Block> Undestroyableblocks;
         private EntityContainer<Block> Destroyableblocks;
+        private EntityContainer<PowerUp.PowerUp> PowerUpContainer;
         public Map(String[] levelStorageSplitMap, Dictionary<char, string> textures, MetaData data){
             Undestroyableblocks = new EntityContainer<Block>();
             Destroyableblocks = new EntityContainer<Block>();
+            PowerUpContainer = new EntityContainer<PowerUp.PowerUp>();
             float x = 0.0f;
             float yCoord = 1.0f / (levelStorageSplitMap.Length-2);
 
@@ -25,7 +27,9 @@ namespace Breakout{
                     x = 1.0f / (levelStorageSplitMap[j].Length - 1);
                     if (textures.ContainsKey(levelStorageSplitMap[i][j])){
                         if (data.PowerUp == levelStorageSplitMap[i][j]){
-                            Destroyableblocks.AddEntity(new PowerUp.PowerUpBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
+                            PowerUpBlock block = new PowerUpBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]);
+                            Destroyableblocks.AddEntity(block);
+                            PowerUpContainer.AddEntity(block.GetPowerUp());
                         }
                         else if (data.Hardened == levelStorageSplitMap[i][j]){
                             Destroyableblocks.AddEntity(new HardenedBlock(new StationaryShape(new Vec2F(x*j,y), new Vec2F(x, 0.03f)),textures[levelStorageSplitMap[i][j]]));
@@ -55,6 +59,10 @@ namespace Breakout{
 
         public EntityContainer<Block> GetDestroyableBlocks() {
             return Destroyableblocks;
+        }
+
+        public EntityContainer<PowerUp.PowerUp> GetPowerUp() {
+            return PowerUpContainer;
         }
     }
 }

@@ -7,6 +7,7 @@ using DIKUArcade.Input;
 using System.IO;
 using System.Collections.Generic;
 using DIKUArcade.Timers;
+using Breakout.PowerUp;
 
 namespace Breakout {
     public class Level{
@@ -34,8 +35,13 @@ namespace Breakout {
         public EntityContainer<Block> GetUndestroyableBlocks(){
             return map.GetUndestroyableBlocks();
         }
+
         public EntityContainer<Block> GetDestroyableBlocks(){
             return map.GetDestroyableBlocks();
+        }
+
+        public EntityContainer<PowerUp.PowerUp> GetPowerUps() {
+            return map.GetPowerUp();
         }
     }
 }

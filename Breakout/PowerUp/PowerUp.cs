@@ -8,12 +8,10 @@ using DIKUArcade.Physics;
 
 namespace Breakout.PowerUp{
     public class PowerUp : Entity{
-        public static EntityContainer<PowerUp> PowerUpContainer = new EntityContainer<PowerUp>();
         private bool shouldShow;
         private DynamicShape dshape;
         public PowerUp(DynamicShape shape, string filepath) : base(shape, new Image(filepath)) {
             shouldShow = false;
-            PowerUpContainer.AddEntity(this);
             dshape = shape;
         }
         public void ShouldShow() {
@@ -29,6 +27,11 @@ namespace Breakout.PowerUp{
         public void Update() {
             if (shouldShow) {
                 Shape.Position.Y -= 0.005f;
+                if (Shape.Position.Y < 0.0f)
+                {
+                    DeleteEntity();
+                    AddEffect();
+                }
                 Shape.Move();
             }
         }
@@ -45,13 +48,8 @@ namespace Breakout.PowerUp{
 
         }
 
-        public void CollideWithPlayer(Player player) {
-            if (CollisionDetection.Aabb((Shape.AsDynamicShape()), player.GetShape()).Collision)
-            {
-                Console.WriteLine("Hej");
-                AddEffect();
-                Delete();
-            }
+        public DynamicShape GetDynamicShape() {
+            return Shape.AsDynamicShape();
         }
     }
 }

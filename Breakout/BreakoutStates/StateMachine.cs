@@ -46,7 +46,8 @@ namespace Breakout.BreakoutStates {
                 case "CHANGE_STATE":
                     SwitchState(StateTransformer.TransformStringToState(gameEvent.Message));
                     break;
-            } 
+            }
+            GameRunning.GetInstance(prevType).ProcessEvent(gameEvent);
         }
 
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
