@@ -11,6 +11,9 @@ namespace Breakout.PowerUp{
            RandomEffect(shape); 
         }
 
+        /// <remarks>
+        /// this function overrides the HealthDown function inherited from the block class
+        /// </remarks>
         public override void HealthDown()
         {
             base.HealthDown();
@@ -22,9 +25,13 @@ namespace Breakout.PowerUp{
             return powerUp;
         }
 
+        /// <summary>
+        /// This function will set the powerup field to a random subclass of the PowerUp class
+        /// </summary>
+        /// <param name="shape"></param>
         private void RandomEffect(Shape shape){
             var rand = new System.Random();
-            int f = rand.Next(1, 4); // random number for formation
+            int f = rand.Next(1, 4); // random number for PowerUp
             switch(f)
             {
                 case 1:

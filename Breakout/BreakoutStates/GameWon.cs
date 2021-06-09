@@ -20,11 +20,19 @@ using System.IO;
             this.window = window;
             ResetState();
         }
+        /// <summary>
+        /// Gets an instance of the game won window
+        /// </summary>
+        /// <param name="window"> game window</param>
+        /// <returns> GameWon state</returns>
         public static GameWon GetInstance(Window window) {
             return GameWon.instance ?? (GameWon.instance = new GameWon(window));
         }
         public void UpdateState(){  
         }
+        /// <summary>
+        /// Renders the GameWon state
+        /// </summary>
         public void RenderState() {
             backGroundImage.RenderEntity();
             Titel.RenderText();
@@ -38,6 +46,11 @@ using System.IO;
                 }
             }
         }
+        /// <summary>
+        /// Handles the changing of menu buttons in the GameWon state
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="key"> keyboard key</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             if (action == KeyboardAction.KeyPress)
             {
@@ -65,6 +78,9 @@ using System.IO;
         public void InitializeGameState() {
 
         }
+        /// <summary>
+        /// Resets to the GameWon state
+        /// </summary>
         public void ResetState() {
             activeMenuButton = 0;
             maxMenuButtons = 2;

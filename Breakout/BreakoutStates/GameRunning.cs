@@ -37,6 +37,11 @@ namespace Breakout {
             health = 3;
             ResetState();
         }
+        /// <summary>
+        /// Gets an instance of the GameRunning window
+        /// </summary>
+        /// <param name="state"> enum of BreakoutStateType</param>
+        /// <returns> GameRuning state</returns>
         public static GameRunning GetInstance(BreakoutStates.GameStateType state) {
             if (state == BreakoutStates.GameStateType.MainMenu)
             {
@@ -44,19 +49,25 @@ namespace Breakout {
             }
             return GameRunning.instance ?? (GameRunning.instance = new GameRunning());
         }
-
+        /// <summary>
+        /// Adds health to the player
+        /// </summary>
         public void AddHealth() {
             health++;
             displayHealth.SetText("HP: " + health.ToString());
         }
-
+        /// <summary>
+        /// Adds a new ball to the game
+        /// </summary>
         private void AddBall() {
             Ball ball = new Ball(new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
                                 new Vec2F(0.03f, 0.03f)), new Image(Path.Combine("Assets", "Images", "ball.png")));
             ballContainer.AddEntity(ball);
             ball.Start();
         }
-
+        /// <summary>
+        /// The loop containing the functions to be called for each game update
+        /// </summary>
         public void GameLoop() {
             player.Move();
             PlayerHealthDown();
@@ -73,9 +84,15 @@ namespace Breakout {
             ShouldGameEnd();
             ChangeLevel();
         }
+        /// <summary>
+        /// continuously calls the GameLoop function to update the state of the game
+        /// </summary>
         public void UpdateState(){
             GameLoop();
         }
+        /// <summary>
+        /// Renders the level, player, ball, score, health, level and timer for the current level
+        /// </summary>
         public void RenderState() {
             levels[activeLevel].Render();
             player.Render();
@@ -89,7 +106,9 @@ namespace Breakout {
 
             levels[activeLevel].GetPowerUps().Iterate(powerUp => {powerUp.Render();});
         }
-
+        /// <summary>
+        /// Decrements the health of the player, and adds a new ball to the game
+        /// </summary>
         public void PlayerHealthDown(){
             if (ballContainer.CountEntities() == 0){
                 health--;
@@ -102,15 +121,20 @@ namespace Breakout {
                 ballContainer.Iterate(ball => {ball.Start();});
             }
         }
+        /// <summary>
+        /// Checks if the game should end
+        /// </summary>
         public void ShouldGameEnd(){
             if(health == 0 || (levels[activeLevel].MetaData.Time != 0 &&  time < 0)){
                 BreakoutBus.GetBus().RegisterEvent(new GameEvent{ EventType = GameEventType.GameStateEvent, 
                                                                 Message = "GameLost", StringArg1 = "CHANGE_STATE"});
             }
         }
-
-
-
+        /// <summary>
+        /// Handles the use of the escape and f key during the GameRunning state
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="key"> keyboard key</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             player.HandleKeyEvent(action, key);
             if (action == KeyboardAction.KeyPress) {
@@ -125,7 +149,9 @@ namespace Breakout {
                 }
             }
         }
-
+        /// <summary>
+        /// Changes the level to the GameWon state, or calls ResetState if an error occured
+        /// </summary>
         private void ChangeLevel(){
             if (levels[activeLevel].GetDestroyableBlocks().CountEntities() == 0) {
                  if (activeLevel == levels.Count - 1)
@@ -140,7 +166,9 @@ namespace Breakout {
                 }
             }
         }
-
+        /// <summary>
+        /// Resets the game to an initial state of GameRunning
+        /// </summary>
         public void ResetState()
         {
             player = new Player(
@@ -178,11 +206,14 @@ namespace Breakout {
             //Display timer
             displayTimer = new Text("Time: " + time.ToString(), new Vec2F(0.25f, 0.5f), new Vec2F(0.4f, 0.4f));
             displayTimer.SetColor(System.Drawing.Color.HotPink);
-            System.Console.WriteLine(levels[activeLevel].GetPowerUps().CountEntities());
         }
 
 
-
+        /// <summary>
+        /// Handles the event that the ball collides with a block
+        /// </summary>
+        /// <param name="blocks"> normal block</param>
+        /// <param name="unbreakable"> Block of type unbreakable</param>
         public void CollideWithBlock(EntityContainer<Block> blocks, EntityContainer<Block> unbreakble)
         {
             blocks.Iterate(block => {
@@ -245,7 +276,9 @@ namespace Breakout {
                 }});
             });
         }
-
+        /// <summary>
+        /// Handles the event that a powerup collides with the player
+        /// </summary>
         public void PowerUpCollideWithPlayer(){
             levels[activeLevel].GetPowerUps().Iterate(powerUp => {
                 //if(CollisionDetection.Aabb(powerUp.GetDynamicShape(), player.GetShape()).Collision) 
@@ -257,7 +290,10 @@ namespace Breakout {
                 }
             });
         }
-
+        /// <summary>
+        /// Handles adding of health to the player and adding extra balls
+        /// </summary>
+        /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEvent gameEvent) {
             switch (gameEvent.StringArg1) {
                 case "EFFECT":

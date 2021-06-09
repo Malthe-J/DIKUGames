@@ -16,12 +16,20 @@ namespace Breakout{
             this.shape = shape;
         }
 
+        /// <summary>
+        /// Sets the start direction
+        /// </summary>
         public void Start()
         {
             shape.Direction.X = -0.01f;
             shape.Direction.Y = 0.01f;
         }
 
+        /// <summary>
+        /// This function checks whether the ball is hitting
+        /// the window and if it hits we flipped the axis according 
+        ///to the side of the window
+        /// </summary>
         public void Move(){
             if (shape.Position.X + shape.Extent.X > 1.0f)
             {
@@ -46,6 +54,11 @@ namespace Breakout{
             RenderEntity();
         }
 
+        /// <summary>
+        /// This function checks whether the ball has collide
+        /// with the player and if it has the Y direction is flipped
+        /// </summary>
+        /// <param name="player"></param>
         public void CollideWithPlayer(Player player)
         {
             if (CollisionDetection.Aabb(shape, player.GetShape()).Collision)

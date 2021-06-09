@@ -9,6 +9,11 @@ namespace Breakout.BreakoutStates{
         GameWon
     }
     public class StateTransformer{
+        /// <summary>
+        /// Transforms the given string to the GameStateType
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns> GamestateType</returns>
         public static GameStateType TransformStringToState(string state){
             switch (state){
                 case "GameRunning":
@@ -25,6 +30,11 @@ namespace Breakout.BreakoutStates{
                     throw new ArgumentException("Invalid string");
             }
         }
+        /// <summary>
+        /// Transforms the given state to the corresponding string
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns> string of the game state</returns>
         public static string TransformStateToString(GameStateType state){
             switch (state){
                 case GameStateType.GameRunning:
