@@ -26,6 +26,10 @@ namespace Breakout {
         private int activeLevel = 0;
         private long startTime; 
         private int health;
+
+        public int Health{
+            get{return health;}
+        }
         private int time;
         private Text displayHealth;
         private Text displayTimer;

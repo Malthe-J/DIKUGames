@@ -47,13 +47,13 @@ namespace BreakoutTests {
             Assert.AreEqual(gameRunning, GameStateType.GameRunning);
             Assert.AreEqual(gamePaused, GameStateType.GamePaused);
         }
-        // [Test]
-        // public void TestShouldGameEnd()
-        // {
-        //     for (int i; i<3; i ++) {
-        //          Casper.HealthDown();
-        //     }
-        //  Assert.AreEqual(Gaysti.State.ActiveState.MainMenu, GameStateType.MainMenu);
-        // }
+        [Test]
+        public void TestShouldGameEnd(){
+            var game = GameRunning.GetInstance(GameStateType.GamePaused);
+            game.PlayerHealthDown();
+            game.PlayerHealthDown();
+            game.PlayerHealthDown();
+            Assert.AreEqual(0, game.Health);
+        }
     }
 }

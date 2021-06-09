@@ -15,5 +15,6 @@ namespace Breakout {
         public HardenedBlock(StationaryShape shape, string filepath): base(shape,filepath) {
             health*=2;
         }
+        
     }
 }
