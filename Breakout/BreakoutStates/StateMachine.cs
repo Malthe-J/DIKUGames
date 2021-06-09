@@ -9,7 +9,6 @@ namespace Breakout.BreakoutStates {
         public IGameState ActiveState { get; private set; }
         public BreakoutStates.GameStateType prevType;
         private Window window;
-
         public StateMachine(Window window) {
             BreakoutBus.GetBus().Subscribe(GameEventType.GameStateEvent, this);
             BreakoutBus.GetBus().Subscribe(GameEventType.InputEvent, this);
@@ -18,9 +17,11 @@ namespace Breakout.BreakoutStates {
             this.window = window;
             window.SetKeyEventHandler(KeyHandler);
         }
-
+        /// <summary>
+        /// Switches the game state to the given statetype
+        /// </summary>
+        /// <param name="stateType"> GameStateType enum</param>
         private void SwitchState(GameStateType stateType) {
-            
             switch (stateType) {
                 case GameStateType.GameRunning:
                     ActiveState = GameRunning.GetInstance(prevType);
@@ -41,6 +42,10 @@ namespace Breakout.BreakoutStates {
                     break;
              }
         }
+        /// <summary>
+        /// Handles when the game state should be switched
+        /// </summary>
+        /// <param name="gameEvent"></param>
         public void ProcessEvent(GameEvent gameEvent) {
             switch (gameEvent.StringArg1) {
                 case "CHANGE_STATE":
@@ -49,7 +54,11 @@ namespace Breakout.BreakoutStates {
             }
             GameRunning.GetInstance(prevType).ProcessEvent(gameEvent);
         }
-
+        /// <summary>
+        /// Handles the event when the keyboard key is pressed and released
+        /// </summary>
+        /// <param name="key"> keyboard key</param>
+        /// <param name="action"></param>
         private void KeyHandler(KeyboardAction action, KeyboardKey key) {
             switch(action){
                 case KeyboardAction.KeyPress:
