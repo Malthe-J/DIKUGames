@@ -8,6 +8,10 @@ namespace Breakout.PowerUp{
 
         }
 
+        /// <summary>
+        /// This function overrides the AddEffect inherited from the PowerUp class
+        /// to add 50 points to the score in ScoreBoard class
+        /// </summary>
         public override void AddEffect(){
             ScoreBoard.AddPoint(50);
         }

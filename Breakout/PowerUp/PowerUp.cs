@@ -9,11 +9,14 @@ using DIKUArcade.Physics;
 namespace Breakout.PowerUp{
     public class PowerUp : Entity{
         private bool shouldShow;
-        private DynamicShape dshape;
         public PowerUp(DynamicShape shape, string filepath) : base(shape, new Image(filepath)) {
             shouldShow = false;
             dshape = shape;
         }
+        
+        /// <summary>
+        /// This function sets a bool field to true so the PowerUp will be rendered and will change position.
+        /// </summary>
         public void ShouldShow() {
             shouldShow = true;
         }
@@ -30,7 +33,6 @@ namespace Breakout.PowerUp{
                 if (Shape.Position.Y < 0.0f)
                 {
                     DeleteEntity();
-                    AddEffect();
                 }
                 Shape.Move();
             }
@@ -44,6 +46,10 @@ namespace Breakout.PowerUp{
             DeleteEntity();
         }
 
+        /// <summary>
+        /// This function is a virtual function so
+        /// the subclasses can  override it.
+        /// </summary>
         public virtual void AddEffect() {
 
         }
