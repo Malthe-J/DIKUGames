@@ -20,11 +20,19 @@ namespace Breakout.BreakoutStates {
             this.window = window;
             InitializeGameState();
         }
+        /// <summary>
+        /// Gets an instance of the main menu window
+        /// </summary>
+        /// <param name="window"> game window</param>
+        /// <returns> MainMenu state</returns>
         public static MainMenu GetInstance(Window window) {
             return MainMenu.instance ?? (MainMenu.instance = new MainMenu(window));
         }
         public void UpdateState(){  
         }
+        /// <summary>
+        /// Renders the MainMenu 
+        /// </summary>
         public void RenderState() {
             backGroundImage.RenderEntity();
             for(int i = 0; i < maxMenuButtons; i++) {
@@ -37,6 +45,11 @@ namespace Breakout.BreakoutStates {
                 }
             }
         }
+        /// <summary>
+        /// Handles the changing of menu buttons in the MainMenu state
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="key"> keyboard key</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             if (action == KeyboardAction.KeyPress)
             {
@@ -61,6 +74,9 @@ namespace Breakout.BreakoutStates {
                 }
             }
         }
+        /// <summary>
+        /// Initializes the Main Menu state
+        /// </summary>
         public void InitializeGameState() {
             activeMenuButton = 0;
             maxMenuButtons = 2;
