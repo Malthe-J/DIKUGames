@@ -10,6 +10,8 @@ using DIKUArcade.State;
 using DIKUArcade.GUI;
 using DIKUArcade.Timers;
 using Breakout.PowerUp;
+using DIKUArcade.Math;
+using System;
 
 namespace Breakout {
     public class GameRunning : IGameState, IGameEventProcessor {
@@ -239,12 +241,12 @@ namespace Breakout {
 
         public void PowerUpCollideWithPlayer(){
             levels[activeLevel].GetPowerUps().Iterate(powerUp => {
-                if(CollisionDetection.Aabb(powerUp.GetDynamicShape(), player.GetShape()).Collision) 
-                {
-                    System.Console.WriteLine("Hej");
+                //if(CollisionDetection.Aabb(powerUp.GetDynamicShape(), player.GetShape()).Collision) 
+                if (Math.Abs(player.GetShape().Position.X-powerUp.GetDynamicShape().Position.X)<0.05
+                &&   Math.Abs(player.GetShape().Position.Y-powerUp.GetDynamicShape().Position.Y)<0.05)
+                {;
                     powerUp.Delete();
-                    powerUp.AddEffect();
-                    System.Console.WriteLine("TRIPLE FUCK!!!!");
+                    powerUp.AddEffect();;
                 }
             });
         }
