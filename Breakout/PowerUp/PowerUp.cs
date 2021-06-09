@@ -11,7 +11,6 @@ namespace Breakout.PowerUp{
         private bool shouldShow;
         public PowerUp(DynamicShape shape, string filepath) : base(shape, new Image(filepath)) {
             shouldShow = false;
-            dshape = shape;
         }
         
         /// <summary>

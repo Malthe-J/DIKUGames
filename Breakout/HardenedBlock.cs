@@ -6,26 +6,14 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 
 namespace Breakout {
+
+    /// <summary>
+    /// This class only change the health value inherited from block and doubles it.
+    /// </summary>
     public class HardenedBlock: Block { 
+
         public HardenedBlock(StationaryShape shape, string filepath): base(shape,filepath) {
             health*=2;
-        }
-        public void HealthDown() {
-            health--;
-            if(health <= 0)
-            {
-                DeleteEntity();
-            }
-        }
-        public bool IsBlockDead() {
-            if (Health <= 0) {
-                return true;
-            }
-            return false;
-        }
-
-        public Shape GetShape() {
-            return Shape;
         }
     }
 }
