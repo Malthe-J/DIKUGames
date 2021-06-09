@@ -57,6 +57,15 @@ namespace Breakout {
             displayHealth.SetText("HP: " + health.ToString());
         }
         /// <summary>
+        /// Adds a new ball to the game
+        /// </summary>
+        private void AddBall() {
+            Ball ball = new Ball(new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
+                                new Vec2F(0.03f, 0.03f)), new Image(Path.Combine("Assets", "Images", "ball.png")));
+            ballContainer.AddEntity(ball);
+            ball.Start();
+        }
+        /// <summary>
         /// The loop containing the functions to be called for each game update
         /// </summary>
         public void GameLoop() {
@@ -291,6 +300,9 @@ namespace Breakout {
                     switch(gameEvent.Message){
                         case "ExtraLife":
                             AddHealth();
+                            break;
+                        case "ExtraBall":
+                            AddBall();
                             break;
                     }
                     break;
