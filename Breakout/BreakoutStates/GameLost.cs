@@ -21,11 +21,22 @@ namespace Breakout {
             this.window = window;
             ResetState();
         }
+        /// <summary>
+        /// Gets an instance of the game lost window
+        /// </summary>
+        /// <param name="window"> game window</param>
+        /// <returns> GameLost state</returns>
         public static GameLost GetInstance(Window window) {
             return GameLost.instance ?? (GameLost.instance = new GameLost(window));
         }
+        /// <summary>
+        /// Updates the current game state
+        /// </summary>
         public void UpdateState(){  
         }
+        /// <summary>
+        /// Renders the GameLost state
+        /// </summary>
         public void RenderState() {
             backGroundImage.RenderEntity();
             Titel.RenderText();
@@ -39,6 +50,11 @@ namespace Breakout {
                 }
             }
         }
+        /// <summary>
+        /// Handles the changing of menu buttons in the gameLost state
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="key"> keyboard key</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             if (action == KeyboardAction.KeyPress)
             {
@@ -66,6 +82,9 @@ namespace Breakout {
         public void InitializeGameState() {
 
         }
+        /// <summary>
+        /// Resets to the GameLost state 
+        /// </summary>
         public void ResetState() {
             activeMenuButton = 0;
             maxMenuButtons = 2;

@@ -18,7 +18,10 @@ namespace Breakout.BreakoutStates {
         public GamePaused() {
             InitializeGameState();
         }
-
+        /// <summary>
+        /// Gets an instance of the GamePaused window
+        /// </summary>
+        /// <returns> GamePaused state</returns>
         public static GamePaused GetInstance() {
             return GamePaused.instance ?? (GamePaused.instance = new GamePaused());
         }
@@ -29,7 +32,9 @@ namespace Breakout.BreakoutStates {
         public void UpdateState() {
 
         }
-
+        /// <summary>
+        /// Renders the GamePaused state
+        /// </summary>
         public void RenderState() {
             Title.SetColor(System.Drawing.Color.Yellow);
             Title.RenderText(); 
@@ -43,7 +48,11 @@ namespace Breakout.BreakoutStates {
                 }
             }
         }
-
+        /// <summary>
+        /// Handles the changing of menu buttons in the GamePaused state
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="key"> keyboard key</param>
         public void HandleKeyEvent(KeyboardAction action, KeyboardKey key){
             if (action == KeyboardAction.KeyPress)
             {
@@ -69,7 +78,9 @@ namespace Breakout.BreakoutStates {
                 }
             }
         }
-
+        /// <summary>
+        /// Initializes to the GamePaused game state
+        /// </summary>
         private void InitializeGameState(){
             activeMenuButton = 0;
             maxMenuButtons = 2;
