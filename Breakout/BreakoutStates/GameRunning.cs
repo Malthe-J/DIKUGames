@@ -10,6 +10,8 @@ using DIKUArcade.State;
 using DIKUArcade.GUI;
 using DIKUArcade.Timers;
 using Breakout.PowerUp;
+using DIKUArcade.Math;
+using System;
 
 namespace Breakout {
     public class GameRunning : IGameState, IGameEventProcessor {
@@ -46,6 +48,13 @@ namespace Breakout {
         public void AddHealth() {
             health++;
             displayHealth.SetText("HP: " + health.ToString());
+        }
+
+        private void AddBall() {
+            Ball ball = new Ball(new DynamicShape(new Vec2F(player.GetPosition().X + player.GetExtent().X/2, player.GetPosition().Y + player.GetExtent().Y), 
+                                new Vec2F(0.03f, 0.03f)), new Image(Path.Combine("Assets", "Images", "ball.png")));
+            ballContainer.AddEntity(ball);
+            ball.Start();
         }
 
         public void GameLoop() {
@@ -239,12 +248,12 @@ namespace Breakout {
 
         public void PowerUpCollideWithPlayer(){
             levels[activeLevel].GetPowerUps().Iterate(powerUp => {
-                if(CollisionDetection.Aabb(powerUp.GetDynamicShape(), player.GetShape()).Collision) 
-                {
-                    System.Console.WriteLine("Hej");
+                //if(CollisionDetection.Aabb(powerUp.GetDynamicShape(), player.GetShape()).Collision) 
+                if (Math.Abs(player.GetShape().Position.X-powerUp.GetDynamicShape().Position.X)<0.05
+                &&   Math.Abs(player.GetShape().Position.Y-powerUp.GetDynamicShape().Position.Y)<0.05)
+                {;
                     powerUp.Delete();
-                    powerUp.AddEffect();
-                    System.Console.WriteLine("TRIPLE FUCK!!!!");
+                    powerUp.AddEffect();;
                 }
             });
         }
@@ -255,6 +264,9 @@ namespace Breakout {
                     switch(gameEvent.Message){
                         case "ExtraLife":
                             AddHealth();
+                            break;
+                        case "ExtraBall":
+                            AddBall();
                             break;
                     }
                     break;

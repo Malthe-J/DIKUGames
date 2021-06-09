@@ -4,7 +4,7 @@ using DIKUArcade.Events;
 namespace Breakout.PowerUp{
     public class ExtraPoint : PowerUp
     {
-        public ExtraPoint(DynamicShape shape) : base(shape, Path.Combine("Assets", "Images", "purple-cirlce.png")) {
+        public ExtraPoint(DynamicShape shape) : base(shape, Path.Combine("Assets", "Images", "purple-circle.png")) {
 
         }
 

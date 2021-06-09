@@ -36,8 +36,8 @@ namespace Breakout.PowerUp{
             }
         }
 
-        public DynamicShape GetShape() {
-            return Shape.AsDynamicShape();
+        public Shape GetShape() {
+            return Shape;
         }
 
         public void Delete(){

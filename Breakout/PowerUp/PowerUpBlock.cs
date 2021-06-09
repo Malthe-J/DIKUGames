@@ -8,7 +8,7 @@ namespace Breakout.PowerUp{
     public class PowerUpBlock : Block{
         private PowerUp powerUp;
         public PowerUpBlock(StationaryShape shape, string filepath) : base(shape, filepath){
-           powerUp = new ExtraLife(new DynamicShape(shape.Position, new Vec2F(0.06f, 0.06f))); 
+           RandomEffect(shape); 
         }
 
         public override void HealthDown()
@@ -20,6 +20,23 @@ namespace Breakout.PowerUp{
 
         public PowerUp GetPowerUp(){
             return powerUp;
+        }
+
+        private void RandomEffect(Shape shape){
+            var rand = new System.Random();
+            int f = rand.Next(1, 4); // random number for formation
+            switch(f)
+            {
+                case 1:
+                    powerUp = new ExtraLife(new DynamicShape(shape.Position, new Vec2F(0.06f, 0.06f)));
+                    return;
+                case 2:
+                    powerUp = new ExtraBall(new DynamicShape(shape.Position, new Vec2F(0.06f, 0.06f)));
+                    return;
+                case 3:
+                    powerUp = new ExtraPoint(new DynamicShape(shape.Position, new Vec2F(0.06f, 0.06f)));
+                    return;
+            }
         }
     }
 }
