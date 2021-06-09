@@ -13,6 +13,14 @@ namespace Breakout{
         private EntityContainer<Block> Undestroyableblocks;
         private EntityContainer<Block> Destroyableblocks;
         private EntityContainer<PowerUp.PowerUp> PowerUpContainer;
+        /// <summary>
+        /// Creates the map with the block defined in the given
+        /// ASCII and sets them in the correct place also defined
+        /// by the ASCII
+        /// </summary>
+        /// <param name="levelStorageSplitMap"></param>
+        /// <param name="textures"></param>
+        /// <param name="data"></param>
         public Map(String[] levelStorageSplitMap, Dictionary<char, string> textures, MetaData data){
             Undestroyableblocks = new EntityContainer<Block>();
             Destroyableblocks = new EntityContainer<Block>();

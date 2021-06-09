@@ -20,7 +20,11 @@ namespace Breakout {
         public MetaData MetaData{
             get{return metaData;}
         }
-
+        /// <summary>
+        /// Splits our level file into their
+        /// individual subcategories
+        /// </summary>
+        /// <param name="FilePath"></param>
         public Level(string FilePath){
             loader = new Loader(FilePath);
             metaData = new MetaData(loader.GetMetaData());

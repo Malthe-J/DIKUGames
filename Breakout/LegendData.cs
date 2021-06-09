@@ -8,12 +8,18 @@ namespace Breakout
     class LegendData
     {
         private Dictionary<char, string> textures;
+
         public LegendData(string[] LegendFile)
         {
             textures = new Dictionary<char, string>();
             LoadData(LegendFile);
         }
 
+        /// <summary>
+        /// Reads the char and image name from the level and
+        /// inserts them into a dictionary
+        /// </summary>
+        /// <param name="LegendSplitData"></param>
         public void LoadData(string[] LegendSplitData)
         {
             for(int i = 3; i < LegendSplitData.Length-1;  i++)

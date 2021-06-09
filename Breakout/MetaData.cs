@@ -32,7 +32,12 @@ namespace Breakout {
         public MetaData(string[] levelStorageSplitMeta){
             Meta(levelStorageSplitMeta);
         }
-
+        /// <summary>
+        /// Takes the text in the ASCII between "Metadata:"
+        /// and "Metadata/" and inserts them into their
+        /// individual arrays
+        /// </summary>
+        /// <param name="levelStorageSplitMeta"></param>
         private void Meta(String[] levelStorageSplitMeta){
              
             int nameIndex = levelStorageSplitMeta[3].IndexOf("Name: ")+"Name: ".Length;

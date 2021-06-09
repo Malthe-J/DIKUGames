@@ -17,12 +17,19 @@ namespace Breakout
             display.SetColor(System.Drawing.Color.HotPink);
         }
 
+        /// <summary>
+        ///Increments the score by 1 and updates the score display
+        /// </summary>
         public void AddPoint()
         {
             score += 1;
             display.SetText("Score: " + score.ToString());
         }
 
+        /// <summary>
+        /// Adds the given point to the score
+        /// </summary>
+        /// <param name = "point"></param>
         public static void AddPoint(int point){
             score += point;
         }

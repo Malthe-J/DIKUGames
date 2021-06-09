@@ -35,6 +35,11 @@ namespace Breakout {
             entity.RenderEntity();
         }
 
+        /// <summary>
+        /// Makes the player able to move and checks if the player is on its way
+        /// to be out of bounds, and if so, makes movement in the given direction
+        /// impossible
+        /// </summary>
         public void Move() {
             UpdateDirection();
             if(shape.Position.X + shape.Direction.X < 0.0)
@@ -60,6 +65,10 @@ namespace Breakout {
 
             
         }
+        /// <summary>
+        /// Checks if the given key has been released
+        /// </summary>
+        /// <param name="key"></param>
 
         public void KeyRelease(KeyboardKey key) {
                 switch (key) {
@@ -73,6 +82,10 @@ namespace Breakout {
                         break;
                 }
         }
+            /// <summary>
+            /// Checks if the given key has been pressed
+            /// </summary>
+            /// <param name="key"></param>
            public void KeyPress(KeyboardKey key) {
             switch (key){
                 case KeyboardKey.Left:
@@ -85,6 +98,12 @@ namespace Breakout {
                     break;
               }
         }
+            /// <summary>
+            /// Checks if the given key has been pressed, which key and if the key
+            /// has been released
+            /// </summary>
+            /// <param name="action"></param>
+            /// <param name="key"></param>
             public void HandleKeyEvent(KeyboardAction action, KeyboardKey key) {
             switch (action) {
                 case KeyboardAction.KeyPress:

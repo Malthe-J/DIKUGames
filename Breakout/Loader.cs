@@ -8,6 +8,13 @@ namespace Breakout{
 
         private string file;
         private string[] SplitData;
+        /// <summary>
+        /// If the code cant find the given ASCII or if the ASCII
+        /// is empty, it sets the current level to "Wall"
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <exception cref="FileNotFoundException">There mest be a level at all times</exception>
+   
         public Loader(string FilePath){
             try
             {
