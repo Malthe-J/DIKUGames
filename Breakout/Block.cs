@@ -6,7 +6,7 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 
 namespace Breakout {
-    public class Block: Entity { 
+    public class Block : Entity { 
         int value;
         protected int health;
         protected string filePath;
@@ -15,7 +15,7 @@ namespace Breakout {
         }
 
         public Block(StationaryShape shape, string filepath): base(shape,new Image(filepath)) {
-            filepath = filePath;
+            filePath = filepath;
             health = 1;
         }
 
@@ -38,7 +38,7 @@ namespace Breakout {
         /// </summary>
         /// <returns>a boolean statement</returns>
         public bool IsBlockDead() {
-            if (Health <= 0) {
+            if (health <= 0) {
                 return true;
             }
             return false;

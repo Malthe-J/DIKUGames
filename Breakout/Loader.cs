@@ -5,7 +5,6 @@ using System.IO;
 namespace Breakout{
     public class Loader
     {
-
         private string file;
         private string[] SplitData;
         /// <summary>
@@ -14,7 +13,7 @@ namespace Breakout{
         /// </summary>
         /// <param name="FilePath"></param>
         /// <exception cref="FileNotFoundException">There mest be a level at all times</exception>
-   
+
         public Loader(string FilePath){
             try
             {
@@ -33,7 +32,7 @@ namespace Breakout{
 
         public string[] GetMetaData()
         {
-            return  SplitData[1].Split('\n');
+            return SplitData[1].Split('\n');
         }
 
         public string[] GetLegendData()

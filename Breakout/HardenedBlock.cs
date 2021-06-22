@@ -10,11 +10,11 @@ namespace Breakout {
     /// <summary>
     /// This class only change the health value inherited from block and doubles it.
     /// </summary>
-    public class HardenedBlock: Block { 
+    public class HardenedBlock : Block { 
 
         public HardenedBlock(StationaryShape shape, string filepath): base(shape,filepath) {
-            health*=2;
+            health *=2;
         }
-        
+
     }
 }

@@ -24,7 +24,7 @@ namespace Breakout
         {
             for(int i = 3; i < LegendSplitData.Length-1;  i++)
             {
-                if (string.IsNullOrWhiteSpace(LegendSplitData[3]))
+                if (string.IsNullOrWhiteSpace(LegendSplitData[i]))
                 {
                     return;
                 }

@@ -35,7 +35,7 @@ namespace Breakout{
             {
                 shape.Direction.X *= -1.0f;
             }
-            if (shape.Position.X + shape.Extent.X < 0.0f + shape.Extent.X)
+            if (shape.Position.X  < 0.0f)
             {
                 shape.Direction.X *= -1.0f;
             }

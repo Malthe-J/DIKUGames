@@ -6,11 +6,9 @@ using DIKUArcade.Events;
 using DIKUArcade.Input;
 
 namespace Breakout {
-    public class UnbreakableBlock: Block { 
-
-
+    public class UnbreakableBlock : Block { 
         public UnbreakableBlock(StationaryShape shape, string filePath): base(shape,filePath) {
-            health = 1;
+            
         }
         ///<summary>
         /// Overrides the "HealthDown function inherited from blocks, since this block cant lose HP

@@ -23,7 +23,7 @@ namespace BreakoutTests
             up.Update();
             up.ShouldShow();
             up.Update();
-            Assert.Less(up.GetShape().Position.Y, 0.5f);
+            Assert.AreEqual(up.GetShape().Position.Y, 0.5f - 0.005f);
         }
 
         [Test]
